@@ -1,0 +1,134 @@
+[下载]
+链接：https://pan.baidu.com/s/1jKR-dOAzo5FR5P2A4SmPlw 
+提取码：0ax4 
+
+[安装]
+按照博客里的步骤一步步做就行
+https://blog.csdn.net/upupandup/article/details/129399611
+
+[准备工作]
+①在本地准备一个工作空间【workspace】（放代码的地方），为了避免奇怪的问题出现，最好用英文命名。
+
+②进入cmd，配置本地git信息:
+	git config --global user.name "用户名"
+	git config --global user.email "邮箱"
+
+③生成SSH key :
+	$ssh-keygen -t rsa -C "邮箱"
+然后一路回车，结束后会生成key，保存在c：/users/administrator/.ssh下
+将id_rsa.pub文件发给远程仓库管理员
+
+④测试与远程仓库的连接（需要管理员先把密钥存到gitlab中）:
+	ssh -T git@gitlab.com
+
+⑤初始化本地仓库
+打开cmd，进入文件夹【workspace】下
+输入
+	git init
+	git remote add origin [远程仓库地址]
+
+⑥完成
+
+[学习资料]
+	https://blog.csdn.net/xb565517830/article/details/80742073
+	https://blog.csdn.net/forever__fish/article/details/123555638
+	https://jrhar.blog.csdn.net/article/details/116703787
+
+[使用]
+先commit再pull再push
+clone
+	git clone git@gitlab.com:LuoPeitong/SmartSiteManagementSystem.git
+
+push
+	git add 需要上传的文件
+	git commit -m "备注”
+	git push 
+
+pull
+	①本地代码有修改，只有master分支，直接覆盖本地代码
+	// 重置索引和工作目录
+	git reset --hard
+	// 更新代码
+	git pull
+
+本地代码已被修改，但是不想保存，想回到远程仓库版本
+	git reset --hard origin/master
+
+创建远程分支
+	git checkout -b <branch_name>
+	git push origin <branch_name>:<branch_name>
+	#查看
+	git branch -a
+
+删除远程分支
+	# 1、推送一个空分支到远程
+	git push origin :<branch_name>
+
+	# 2、
+	git push origin --delete <branch_name>
+
+连接多个远程仓库
+①连接第一个仓库：
+	git remote add <远程主机名> <url>
+
+②查看远程仓库情况：
+	git remote -v
+
+③连接第二个仓库：
+	git remote add <远程主机名_2> <url_2>
+	
+④再次查看远程仓库情况，发现已经有两个。
+
+⑤缺点是每次都要push两次
+
+
+ # 删除远程仓库
+git remote rm <name>
+# 修改仓库名
+git remote rename <old_name> <new_name>
+# 查看所有分支
+git branch -a
+#删除本地分支
+git branch -D <name>
+
+git push <远程主机名> <本地分支名>:<远程分支名>
+如果本地分支名与远程分支名相同，则可以省略冒号：
+git push <远程主机名> <本地分支名>
+
+# 生成ssh-key，~/:指的是C盘用户的地址，一般是C:\Users\Administrator\.ssh
+# 作为github使用
+ssh-keygen -t rsa -C "username@email.com" -f ~/.ssh/id_rsa
+
+# 生成第二个ssh-key,指的是公司的地址。username可以定义为你在公司提交的名字，生成密钥
+# 作为gitlab使用
+ssh-keygen -t rsa -C "username1@email.com" -f ~/.ssh/gs_rsa
+
+#执行git add .的时候出现的警告
+#warning: in the working copy of ‘...‘, LF will be replaced by CRLF the next time Git touche
+git config --global core.autocrlf true
+#提交时转换为LF，检出时转换为CRLF：
+
+
+版本切换: git reset ,使用git reset --hard 唯一标识符,即可切换版本.
+例如将file_01.txt切换到未修改的版本:
+$ git reset --hard 6c2289a
+# HEAD is now at 6c2289a commit file_01.txt
+ 
+$ git-log
+# 6c2289a (HEAD -> master) commit file_01.txt
+版本回退后,提交记录只剩下了最开始的那条,文件也回到了修改前的版本,此时如果又想切换到修改过的版本,就要知道修改后的版本的唯一标识符.
+
+可以通过git reflog查看记录.
+$ git reflog
+# 6c2289a (HEAD -> master) HEAD@{0}: reset: moving to 6c2289a
+# faf6f6a HEAD@{1}: commit: commit file_01.txt second
+# 6c2289a (HEAD -> master) HEAD@{2}: commit (initial): commit file_01.txt
+可以看到修改后的版本唯一标识符为 faf6f6a,用操作8即可切回修改后的版本.
+
+切换回修改后的版本
+$ git reset --hard faf6f6a
+# HEAD is now at faf6f6a commit file_01.txt second
+
+$ git-log
+# * faf6f6a (HEAD -> master) commit file_01.txt second
+# * 6c2289a commit file_01.txt

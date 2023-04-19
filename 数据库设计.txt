@@ -1,0 +1,50 @@
+工种	实时人员总人数
+经纬度 高度
+工号、姓名、部门、连接终端状态、个人地理定位信息（经纬度 高度）
+
+总人数、终端在线人数、离线人数、超时人数、最早进厂人员信息、最早离场时间信息、最晚离场人员信息、最晚进厂时间信息
+人员及终端信息（人员的设备状态、当前位置、进出场时间、实时轨迹回放）
+（人员进出场时间、工作时长、历史运动轨迹
+人员所属项目
+部门设置
+作业区域 围栏区域
+告警处理记录（要有违规类型）
+
+
+6)系统管理
+组织结构变更：此功能主要针对部门设置进行增、删功能，以便灵活、实时地适应项目组织机构的变更。
+地图编辑：本功能的主要作用是让管理者能够在巷道结构发生变化时自行编辑及修改地图等相关信息，以满足最新的地图定位需求
+
+人员信息表(staff)
+数据编号id		工号job_no	姓名name		部门编号department_id	工种profession	连接终端状态is_online	所属项目project_id
+
+考勤表(attendance)
+数据编号id		日期moment	工号job_no	进场时间enter_moment	离场时间leave_moment
+
+项目表(project)
+项目编号id		项目名称name	工作区域work_area（String 类型 List<区域编号>）	禁止区域limited_area		上班时间start_time	下班时间closing_time
+
+部门表(department)
+数据编号id		部门代号symbol	部门名称name
+
+一级菜单表(menu)
+菜单编号（id）	名称（title）	图片（img）
+
+二级菜单表(func)
+二级菜单编号（id）	所属一级菜单（menu_id）	名称（title）	地址（content）
+
+账号表(login)
+账号编号id		工号job_no	密码pwd		权限permissions（管理人员1、员工0、管理员2）
+2>1>0，登录时，浏览器给后端一个值（员工端就是0，管理人员端就是1...)取回的权限与此数字对比，小于，则无权限
+
+区域管理表(area)
+区域编号id	范围region	类型class（作业1、禁止0）
+
+告警记录表(Alarm)
+记录编号id	时间moment	类型class(离开工作区域1、进入禁止区域0)		工号job_no	处理情况handling(处理1，未处理0）			
+
+轨迹表(trajectory)
+轨迹编号id	工号job_no	时间moment 	位置信息location
+
+
+	

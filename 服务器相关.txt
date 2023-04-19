@@ -1,0 +1,106 @@
+nginx安装与使用教程：https://blog.csdn.net/zz00008888/article/details/116204649
+数据库安装与配置教程：https://blog.csdn.net/qq_40869428/article/details/117226927
+jdk：见下
+tomcat：见下
+
+[jdk]
+1.  执行以下命令，查看yum源中JDK版本。
+
+yum list java*
+2.  执行以下命令，使用yum安装JDK1.8。
+
+yum -y install java-1.8.0-openjdk*
+3.  执行以下命令，查看是否安装成功。
+
+java -version
+如果显示如下图内容，则表示JDK安装成功。
+
+
+[Docker]
+①安装所需要的包
+yum install -y yum-utils device-mapper-persistent-data lvm2
+使用阿里云docker镜像地址
+yum-config-manager --add-repo \
+http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+更新yum软件包索引
+yum makecache fast
+
+②Install Docker Engine
+sudo yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+③start Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+
+【安装MySQL数据库】
+1.  执行以下命令
+下载并安装MySQL5.7官方的Yum Repository。
+wget http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+yum -y install mysql57-community-release-el7-10.noarch.rpm
+yum -y install mysql-community-server
+
+下载并安装MySQL8.0官方的Yum Repository
+wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+sudo rpm -ivh mysql80-community-release-el7-3.noarch.rpm
+# 安装现有的 gpg 公钥
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+sudo yum install mysql-community-server
+sudo systemctl start mysqld
+
+2.  执行以下命令，启动 MySQL 数据库。
+systemctl start mysqld.service
+#查看状态
+sudo systemctl status mysqld
+
+3.  执行以下命令，查看MySQL初始密码。
+grep "password" /var/log/mysqld.log
+
+4.  执行以下命令，登录数据库。
+mysql -uroot -p
+
+5.  执行以下命令，修改MySQL默认密码。
+set global validate_password_policy=0;  #修改密码安全策略为低（只校验密码长度，至少8位）。
+ALTER USER 'root'@'localhost' IDENTIFIED BY '12345678';
+
+# 8.0
+SHOW VARIABLES LIKE 'validate_password%';
+set global validate_password.policy=0;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '12345678';
+
+6.  执行以下命令，授予root用户远程管理权限。
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123';
+
+# 80
+create user root@'%' identified by '12345678';
+grant all privileges on *.* to root@'%' with grant option;
+7.  输入exit退出数据库。
+
+
+[安装Tomcat]
+1.  执行以下命令，下载Tomcat压缩包。
+wget https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-8/v8.5.69/bin/apache-tomcat-8.5.69.tar.gz
+
+2.  执行以下命令，解压刚刚下载Tomcat包。
+tar -zxvf apache-tomcat-8.5.69.tar.gz 
+
+3.  将tomcat移动到/usr/local/下
+mv apache-tomcat-8.5.69 /usr/local/Tomcat8.5
+
+4.  执行以下命令，为Tomcat授权。
+chmod +x /usr/local/Tomcat8.5/bin/*.sh
+
+5.  执行以下命令，修改Tomcat默认端口号为80。
+说明： Tomcat默认端口号为8080。
+sed -i 's/Connector port="8080"/Connector port="80"/' /usr/local/Tomcat8.5/conf/server.xml
+
+6.  启动Tomcat。
+/usr/local/apache-tomcat-8.5.87/bin/./startup.sh
+/usr/local/apache-tomcat-8.5.87/bin/./shutdown.sh
+
+7.  访问Tomcat。
+至此，Java Web开发环境搭建完成。
+
+
+

@@ -1,0 +1,141 @@
+Controller 层中，到底是 返回界面 还是JSON?
+	前提：Controller 层上面的注解是@Controller；如果是@RestController 情况就不同了
+	讨论：返回json 数据 还是view视图？
+	结论：
+		不使用@ResponseBody 注解在方法上，返回的是String对象，那么展示的内容要到指定界面上。
+		使用   @ResponseBody 注解在方法上，返回的是JSON对象，那么展示的内容便是json字符串。
+		使用   @ResponseBody 注解在方法上，返回的对象是ModelAndView (显示界面),那么展示的内容要到指定界面上。
+
+	@RequestMapping("/user/findAll")——返回一个jsp页面
+
+ 	@ResponseBody
+	@GetMapping(value = "/user/findAll")——返回json
+         
+
+SpringMVC返回json数据时报错：No converter found for return value of type的解决方案
+	原因：就是没有发现该返回类型的转换器，也就是说，当我们想让springmvc自动的帮我们给返回的数据转为json数据时，springmvc并没有成功的给我们返回的数据转为json对象。
+
+	解决：
+		1.检查springmvc的配置，如果是自己手动配置转换器，看一下有没有正确的配置json转换器；如果是springmvc自动配置，那检查一下				springmvc配置中有无开启mvc注解驱动,即：<mvc:annotation-driven />
+
+		2.如果上面没问题但还是得不到json数据，再看一下是否加了jackson的几个jar包，如果是maven项目，可以添加下面三个依赖坐标(普通项目也		类似)：
+     <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-core</artifactId>
+         <version>2.9.6</version>
+     </dependency>
+     <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-annotations</artifactId>
+         <version>2.9.6</version>
+     </dependency>
+     <dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <version>2.9.6</version>
+     </dependency>
+
+Mybatis打开驼峰命名（使结果能够映射上用驼峰命名的pojo属性）
+	在applicationContext-dao.xml中直接配置
+
+<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="factory">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="typeAliasesPackage" value="com.glc.domain"/>
+    
+    <property name="configuration">
+        <bean class="org.apache.ibatis.session.Configuration">
+            <property name="mapUnderscoreToCamelCase" value="true"/>
+        </bean>
+    </property>
+
+</bean>
+
+SpringMvc:源服务器拒绝服务请求，因为有效负载的格式在目标资源上此方法不支持。
+
+	原因：使用@RequestBody时只会解析(json格式的数据)Content-Type: application/js的请求，在请求头中加上即可
+
+
+标签页打开不同的页面：https://blog.csdn.net/weixin_43503080/article/details/106491697
+https://blog.csdn.net/weixin_51300999/article/details/123640547
+
+vue 的sessionStorage在页面刷新就没了，所以采用localStorage
+
+用vuex管理数据
+但是当两个组件共用一个数据源(对象或数组)时，如果其中一个组件改变了该数据源，希望另一个级件响应该变化时，localStorage、sessionStorage无法做到，
+
+使用dialog时，刚进入页面就自动打开了dialog
+body部分的渲染是通过​rendered​参数来控制的,
+rendered是el-dialog中的内部参数，在首次打开之后，el-dialog将rendered置为true,之后body内容就开始渲染。
+我们可以通过弹框实例直接修改他，只要让rendered参数在未打开时就值为true，就可以
+解决：
+	在mounted中添加this.$refs.diaglog.rendered = true
+
+组件数据变更后怎么刷新
+
+数据生成器（时间）：https://www.lddgo.net/string/randomnumber
+
+数据导出（excel）poi
+
+修改elementUI二级菜单的样式
+	源代码设计了一个min-width=200px，导致页面过小时，二级菜单会多出一块
+	解决方案：直接在行内修改样式，将min-width修改为100px;
+	参考：https://blog.csdn.net/weixin_45844850/article/details/117903922
+	          https://blog.csdn.net/qq_44890405/article/details/126857519
+
+
+基于Tablestore实现海量运动轨迹数据存储
+https://developer.aliyun.com/article/702482
+运动轨迹数据不能删除，存储量会越来越大，使用MySQL首先要考虑的是它是单机型数据库，横向扩展不友好。另外轨迹数据写多读少，大部分是冷数据，用MySQL存储也不经济。当用户规模大起来以后，轨迹点上传对于数据库的读写性能也有很高的要求。总结起来有如下劣势点：
+单机数据库，不好扩容，存储容量受限。
+存储大量冷数据，成本高，不经济。
+对于海量高并发运动轨迹数据的读写需要做很多优化。
+
+使用8.x版本的数据库时，jdbc想连接服务器中的远程数据库，需要加上?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true
+同时还要注意依赖中的mysql驱动版本号
+
+论文的绪论、需求分析中可参考https://blog.csdn.net/cris_tian/article/details/125921919?spm=1001.2014.3001.5502的部分。
+
+射线法：区域闯入问题
+public class PointInPolygon {
+    // 判断点是否在多边形内
+    public static boolean isPointInPolygon(Point point, Point[] polygon) {
+        int num = polygon.length;
+        int i, j;
+        boolean inside = false;
+
+        for (i = 0, j = num - 1; i < num; j = i++) {
+            if (((polygon[i].y > point.y) != (polygon[j].y > point.y)) &&
+                    (point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) /
+                            (polygon[j].y - polygon[i].y) + polygon[i].x)) {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    // 点类
+    static class Point {
+        double x;
+        double y;
+
+        public Point(double x, double y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static void main(String[] args) {
+        // 构造多边形的顶点数组
+        Point[] polygon = { new Point(0, 0), new Point(0, 5), new Point(5, 5), new Point(5, 0) };
+        // 测试点的坐标
+        Point point = new Point(2, 2);
+
+        boolean isInside = isPointInPolygon(point, polygon);
+        if (isInside) {
+            System.out.println("点在多边形内");
+        } else {
+            System.out.println("点不在多边形内");
+        }
+    }
+}
