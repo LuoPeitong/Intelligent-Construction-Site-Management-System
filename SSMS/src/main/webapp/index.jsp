@@ -1,16 +1,3 @@
-<%--<html>--%>
-<%--<body>--%>
-<%--<h2>Hello World!</h2>--%>
-<%--<a href="user/findAll">getAll</a>--%>
-<%--<a href="menu/getMenu">getMenu</a>--%>
-<%--<a href="staff/getAllByProject">getStaff</a>--%>
-<%--<form action="user/login" method="post">--%>
-<%--    <input type="text" name="username">--%>
-<%--    <input type="password" name="password">--%>
-<%--    <input type="submit" value="login">--%>
-<%--</form>--%>
-<%--</body>--%>
-<%--</html>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
