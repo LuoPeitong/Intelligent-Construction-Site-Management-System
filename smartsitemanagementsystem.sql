@@ -1,3 +1,19 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 80025
+ Source Host           : localhost:3306
+ Source Schema         : smartsitemanagementsystem
+
+ Target Server Type    : MySQL
+ Target Server Version : 80025
+ File Encoding         : 65001
+
+ Date: 26/04/2023 16:54:42
+*/
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -14,7 +30,7 @@ CREATE TABLE `alarm`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_alarm_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_alarm_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for area
@@ -24,6 +40,9 @@ CREATE TABLE `area`  (
   `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
   `region` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `classes` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `create_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -187,7 +206,7 @@ CREATE TABLE `department`  (
   `symbol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of department
@@ -211,7 +230,7 @@ CREATE TABLE `func`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_func_menu_on_menuid`(`menu_id`) USING BTREE,
   CONSTRAINT `fk_func_menu_on_menuid` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of func
@@ -240,7 +259,7 @@ CREATE TABLE `login`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_login_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_login_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of login
@@ -298,7 +317,7 @@ CREATE TABLE `menu`  (
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
@@ -323,7 +342,7 @@ CREATE TABLE `project`  (
   `start_time` time(0) NULL DEFAULT NULL,
   `closing_time` time(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of project
@@ -353,12 +372,12 @@ CREATE TABLE `staff`  (
   INDEX `fk_staff_project_on_projectid`(`project_id`) USING BTREE,
   CONSTRAINT `fk_staff_department_on_departmentid` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_staff_project_on_projectid` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of staff
 -- ----------------------------
-INSERT INTO `staff` VALUES (1, 'qwe001', '张三', 1, '技术员', '离线', 1);
+INSERT INTO `staff` VALUES (1, 'qwe001', '张三', 1, '技术员', '在线', 1);
 INSERT INTO `staff` VALUES (2, 'qwe002', '李四', 1, '技术员', '离线', 1);
 INSERT INTO `staff` VALUES (3, 'qwe003', '王二', 1, '工程师', '离线', 1);
 INSERT INTO `staff` VALUES (4, 'qwe004', '赵钱', 2, '项目主管', '离线', 1);
@@ -414,7 +433,7 @@ CREATE TABLE `trajectory`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_trajectory_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_trajectory_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trajectory
@@ -518,5 +537,7 @@ INSERT INTO `trajectory` VALUES (101, 'qwe001', '2023-04-17 14:51:48', 'undefine
 INSERT INTO `trajectory` VALUES (102, NULL, '2023-04-17 14:53:22', 'undefined,undefined');
 INSERT INTO `trajectory` VALUES (103, NULL, '2023-04-17 15:02:23', 'undefined,undefined');
 INSERT INTO `trajectory` VALUES (104, NULL, '2023-04-17 16:13:37', 'undefined,undefined');
+INSERT INTO `trajectory` VALUES (105, NULL, '2023-04-17 16:19:43', 'undefined,undefined');
+INSERT INTO `trajectory` VALUES (106, NULL, '2023-04-17 16:43:39', 'undefined,undefined');
 
 SET FOREIGN_KEY_CHECKS = 1;
