@@ -38,7 +38,7 @@
 2>1>0，登录时，浏览器给后端一个值（员工端就是0，管理人员端就是1...)取回的权限与此数字对比，小于，则无权限
 
 区域管理表(area)
-区域编号id	范围region	类型class（作业1、禁止0）
+区域编号id		范围region	类型class（作业1、禁止0）	区域名称name	创建人create_by	创建事件create_time
 
 告警记录表(Alarm)
 记录编号id	时间moment	类型class(离开工作区域1、进入禁止区域0)		工号job_no	处理情况handling(处理1，未处理0）			
