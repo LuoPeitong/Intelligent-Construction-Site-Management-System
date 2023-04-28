@@ -23,7 +23,7 @@
 <script>
 export default {
   name: 'RegionalManagement',
-  data() {
+  data () {
     return {
       formArea: {
         name: '',

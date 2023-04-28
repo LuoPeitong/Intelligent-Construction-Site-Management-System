@@ -12,6 +12,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.prototype.$axios = axios
 
 // 设置反向代理，前端请求默认发送到 http://localhost:8443/SSMS_war_exploded/
+// axios.defaults.baseURL = 'http://47.120.42.193:8443/SSMS/'
 axios.defaults.baseURL = 'http://localhost:8443/SSMS_war_exploded/'
 
 Vue.config.productionTip = false
