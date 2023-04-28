@@ -156,3 +156,5 @@ computed的好处是它的结果会被缓存，只有在它依赖的数据变化
 版权声明：本文为CSDN博主「二木成林」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/cnds123321/article/details/113004982
 也可以用redis来代替session
+
+vue使用全局方法:https://blog.csdn.net/mlz_2/article/details/118612100
