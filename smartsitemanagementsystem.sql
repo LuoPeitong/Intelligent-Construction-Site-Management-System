@@ -11,7 +11,7 @@
  Target Server Version : 80025
  File Encoding         : 65001
 
- Date: 26/04/2023 16:54:42
+ Date: 28/04/2023 20:56:04
 */
 
 SET NAMES utf8mb4;
@@ -44,7 +44,12 @@ CREATE TABLE `area`  (
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of area
+-- ----------------------------
+INSERT INTO `area` VALUES (1, '11', '1', '1', '张三', '2023-04-28 18:06:34');
 
 -- ----------------------------
 -- Table structure for attendance
@@ -433,7 +438,7 @@ CREATE TABLE `trajectory`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_trajectory_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_trajectory_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trajectory
@@ -539,5 +544,7 @@ INSERT INTO `trajectory` VALUES (103, NULL, '2023-04-17 15:02:23', 'undefined,un
 INSERT INTO `trajectory` VALUES (104, NULL, '2023-04-17 16:13:37', 'undefined,undefined');
 INSERT INTO `trajectory` VALUES (105, NULL, '2023-04-17 16:19:43', 'undefined,undefined');
 INSERT INTO `trajectory` VALUES (106, NULL, '2023-04-17 16:43:39', 'undefined,undefined');
+INSERT INTO `trajectory` VALUES (107, 'qwe001', '2023-04-27 11:26:05', 'undefined,undefined');
+INSERT INTO `trajectory` VALUES (108, 'qwe001', '2023-04-27 11:32:59', '116.406243,39.901403');
 
 SET FOREIGN_KEY_CHECKS = 1;
