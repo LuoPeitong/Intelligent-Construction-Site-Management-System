@@ -26,7 +26,7 @@
 		methods: {
 			loginSubmit() {
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/login",
+					url: this.$baseUrl + "login",
 					data:{
 						jobNo:this.username,
 						pwd:this.password,

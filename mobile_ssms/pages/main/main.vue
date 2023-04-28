@@ -42,7 +42,7 @@
 				console.log("location: "+ val)
 				this.location = val
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/trajectory/setLocation",
+					url: this.$baseUrl + "trajectory/setLocation",
 					data: {
 						jobNo: this.staff.jobNo,
 						location: this.location
@@ -69,17 +69,21 @@
 					geocode: true,
 					success: (res) => {
 						console.log('当前位置的经度：' + res.longitude);
-						this.longitude = res.longitude;
 						console.log('当前位置的纬度：' + res.latitude);
-						this.latitude = res.latitude;
+						this.location = res.longitude + "," + res.latitude
+						console.log('当前位置的纬度：' + this.location);
+						this.setLocation();
 					}
 				});
+				
+			},
+			setLocation(){
 				// 将时间和经纬存入 轨迹表(trajectory)
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/trajectory/setLocation",
+					url: this.$baseUrl + "trajectory/setLocation",
 					data: {
 						jobNo: this.staff.jobNo,
-						location: this.longitude + "," + this.latitude
+						location: this.location
 					},
 					method: 'post',
 					header: {
@@ -100,7 +104,7 @@
 			// 签到 考勤表(attendance)
 			signIn() {
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/attendance/signIn",
+					url: this.$baseUrl + "attendance/signIn",
 					data: {
 						jobNo: this.staff.jobNo
 					},
@@ -120,7 +124,7 @@
 			},
 			signOut() {
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/attendance/signOut",
+					url: this.$baseUrl + "attendance/signOut",
 					data: {
 						jobNo: this.staff.jobNo
 					},
@@ -140,7 +144,7 @@
 			},
 			logOut() {
 				uni.request({
-					url: "http://localhost:8443/SSMS_war_exploded/logOut",
+					url: this.$baseUrl + "logOut",
 					data: {
 						jobNo: this.staff.jobNo,
 						id: this.staff.id
