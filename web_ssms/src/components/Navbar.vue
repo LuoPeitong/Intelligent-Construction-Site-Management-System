@@ -2,19 +2,20 @@
   <el-menu
     id="menu"
     default-active="2"
-    unique-opened="true"
+    unique-opened
     class="el-menu-vertical-demo"
     background-color="#545c64"
     text-color="#fff"
     text-align="left"
     active-text-color="#ffd04b">
 
-    <el-submenu :index="nav.id" :popper-append-to-body="false" v-for="(nav, key) in NavbarList" :key="key">
+    <el-submenu :index="String(nav.id)" :popper-append-to-body="false" v-for="(nav, key) in NavbarList" :key="key">
       <template slot="title">
         <i :class="nav.img"></i>
         <span>{{ nav.title }}</span>
       </template>
-      <el-menu-item style="min-width: 100px" :index="s_nav.id" v-for="(s_nav, s_key) in nav.subMenu" :key="s_key" @click="active(s_nav)">
+      <el-menu-item style="min-width: 100px" :index="String(s_nav.id)" v-for="(s_nav, s_key) in nav.subMenu"
+                    :key="s_key" @click="active(s_nav)">
         <span>{{ s_nav.title }}</span>
       </el-menu-item>
     </el-submenu>
@@ -55,6 +56,6 @@ export default {
 
 <style>
 .el-submenu .el-menu-item {
-  min-width: 100px ;
+  min-width: 100px;
 }
 </style>
