@@ -140,10 +140,19 @@ public class PointInPolygon {
     }
 }
 
-vue
+vue生命周期
 onload适合在页面初始化的时候进行数据的加载、组件的初始化等操作
 onshow适合在页面每次显示时需要进行的更新操作。
 computed的好处是它的结果会被缓存，只有在它依赖的数据变化时才会重新计算。因此，如果有需要根据数据变化而变化的逻辑，且这个逻辑可以通过计算属性来实现，那么就应该使用computed。
 通常在 created 钩子中执行一些初始化任务，如数据请求、监听事件等。
 通常在 mounted 钩子中执行一些需要操作 DOM 元素的任务，如初始化插件、绑定事件等。
 通常在 updated 钩子中执行一些需要对组件数据进行响应式操作的任务。
+
+
+获取session的时候出了问题，存的时候正常，但是取的时候报null
+原因，前后端分离，跨域时会导致每次sessionid不同
+默认情况下，跨源请求不提供凭据(cookie、HTTP认证及客户端SSL证明等)，这句话的意思就是跨域时，默认是作跨域请求时，不会携带cookie参数，而我们知道session是基于cookie的，如果不携带cookie，那么session自然也无法作为，所以就需要xhrFields: {withCredentials: true}这段代码来设置，使得跨域请求时携带cookie，同时，后端的springmvc代码也需要同意，所以@CrossOrigin(origins = "*",allowCredentials = "true")这段代码就表示解决跨域的同时允许接收cookie等数据。
+————————————————
+版权声明：本文为CSDN博主「二木成林」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/cnds123321/article/details/113004982
+也可以用redis来代替session
