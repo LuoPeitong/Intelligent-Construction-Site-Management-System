@@ -38,34 +38,12 @@ public class AreaController {
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/area/addArea")
-    public Result addArea(@RequestBody Area area, HttpServletRequest request) {
+    public Result addArea(@RequestBody Area area) {
         try{
-            if(area.getClasses()==null||"".equals(area.getClasses())){
-                return new Result(401,null,"类型为空，请求失败");
-            }
-            if(area.getRegion()==null||"".equals(area.getRegion())){
-                return new Result(401,null,"范围不存在，请求失败");
-            }
-            if(area.getName()==null||"".equals(area.getName())){
-                return new Result(401,null,"区域名称为空，请求失败");
-            }
-
-            if (area.getCreateBy()==null||"".equals(area.getCreateBy())) {
-                return new Result(401,null,"未登录，请登录后再试");
-            }
-
-            //定义格式，不显示毫秒
-            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            //获取系统当前时间
-            Timestamp now= new Timestamp(System.currentTimeMillis());
-            area.setCreateTime(datetime.format(now));
-            System.out.println("获取session之后"+area);
-            areaService.addArea(area);
-
-            return new Result(200,null,"新增区域成功");
+            return areaService.addArea(area);
         }
         catch (Exception e) {
-            return new Result(400,null,"出错了");
+            return new Result(400,null,"出错了,请联系开发人员");
         }
     }
 }

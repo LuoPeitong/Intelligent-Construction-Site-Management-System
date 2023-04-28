@@ -2,10 +2,13 @@ package com.lpt.service.Impl;
 
 import com.lpt.dao.IAreaDao;
 import com.lpt.pojo.Area;
+import com.lpt.result.Result;
 import com.lpt.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service("areaService")
@@ -27,9 +30,32 @@ public class AreaServiceImpl implements AreaService {
     }
 
     @Override
-    public void addArea(Area area){
+    public Result addArea(Area area){
 
-        iAreaDao.addArea(area);
+        if(area.getClasses()==null||"".equals(area.getClasses())){
+            return new Result(201,null,"类型为空");
+        }
+        if(area.getRegion()==null||"".equals(area.getRegion())){
+            return new Result(201,null,"范围为空");
+        }
+        if(area.getName()==null||"".equals(area.getName())){
+            return new Result(201,null,"区域名称为空");
+        }
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp now= new Timestamp(System.currentTimeMillis());
+        area.setCreateTime(datetime.format(now));
+
+        if(area.getId()==null){
+            if (area.getCreateBy()==null||"".equals(area.getCreateBy())) {
+                return new Result(202,null,"未登录，请先登录");
+            }
+            iAreaDao.addArea(area);
+        }
+        else{
+            iAreaDao.editArea(area);
+        }
+        return new Result(200,null,"操作成功");
     }
 
     @Override

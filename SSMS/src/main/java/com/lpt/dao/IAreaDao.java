@@ -18,7 +18,7 @@ public interface IAreaDao {
     @Insert("insert into area (region,classes,name,create_by,create_time) values(#{region}, #{classes}, #{name}, #{createBy}, #{createTime})")
     public void addArea(Area area);
 
-    @Update("update area set region=#{region}, class=#{class}, name=#{name}, create_by=#{createBy}, create_time=#{createTime} where id=#{id}")
+    @Update("update area set region=#{region}, classes=#{classes}, name=#{name} where id=#{id}")
     public void editArea(Area area);
 
     @Delete("delete from area where id = #{id}")
