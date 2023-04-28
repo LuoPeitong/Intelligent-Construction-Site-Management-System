@@ -31,18 +31,21 @@
         <el-button type="primary" @click="querrySubmit">查找</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" fit height="600px" style="width: 100%">
+    <el-table :data="tableData" fit stripe height="600px" style="width: 100%">
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="date" label="日期" width="150"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-      <el-table-column prop="province" label="省份" width="120"></el-table-column>
-      <el-table-column prop="city" label="市区" width="120"></el-table-column>
-      <el-table-column prop="address" label="地址" width="300"></el-table-column>
+      <el-table-column prop="id" label="序号" width="150"></el-table-column>
+      <el-table-column prop="classes" label="类型" width="120">
+        <template slot-scope="{ row }">
+          {{ row.classes == 1 ? '活动区域' : '禁止区域' }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="区域名称" width="120"></el-table-column>
+      <el-table-column prop="createBy" label="操作人" width="120"></el-table-column>
+      <el-table-column prop="createTime" label="操作时间" width="150"></el-table-column>
     </el-table>
   </div>
 </template>
@@ -55,7 +58,9 @@ export default {
       editArea: {
         name: '',
         region: '',
-        classes: ''
+        classes: '',
+        createBy: '',
+        createTime: ''
       },
       queryArea: {
         name: '',
@@ -73,7 +78,8 @@ export default {
       console.log(JSON.stringify(this.queryArea))
     },
     handleClick (row) {
-      console.log(row)
+      // 深拷贝，避免修改editArea时，row也变化
+      this.editArea = JSON.parse(JSON.stringify(row))
     },
     getAreaTable () {
       this.$axios
@@ -89,37 +95,23 @@ export default {
     addArea () {
       this.$axios
         .post('area/addArea', {
+          id: this.editArea.id,
           name: this.editArea.name,
           region: this.editArea.region,
           classes: this.editArea.classes,
           createBy: this.staff.name
         })
         .then(res => {
-          if (res.data.code === 200) {
-            const h = this.$createElement
-            this.$notify({
-              title: '成功',
-              message: h('i',
-                {style: 'color: teal'},
-                res.data.message)
-            })
-          }
+          this.PrintMessage(res.data.code, res.data.message)
         })
         .catch(failResponse => {
-          const h = this.$createElement
-          this.$notify({
-            title: '失败',
-            message: h('i',
-              {style: 'color: teal'},
-              failResponse.data.message)
-          })
+          this.PrintMessage(400, '网络错误')
         })
     }
   },
   created () {
     this.getAreaTable()
     this.staff = JSON.parse(sessionStorage.getItem('staff'))
-    console.log(this.staff.name)
   }
 }
 </script>
