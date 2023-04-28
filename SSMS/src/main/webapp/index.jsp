@@ -1,73 +1,73 @@
+<%@ page pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script charset="utf-8" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script>
-    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=CLZBZ-CENER-J77WJ-WNN4Q-APRT2-A4FB4"></script>
-    <style type="text/css">
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
-        body,button,input,select,textarea {
-            font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
-        }
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <style>
+        html,
+        body,
         #container {
-            min-width: 600px;
-            min-height: 767px;
+            width: 100%;
+            height: 100%;
         }
     </style>
+    <title>多边形编辑器吸附功能</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <script charset="utf-8" src="https://webapi.amap.com/maps?v=2.0&key=408c1801ef3622a7a95827c67962fcff&plugin=AMap.PolygonEditor"></script>
+    <script charset="utf-8" src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
 </head>
 <body>
 <div id="container"></div>
-<script>
-    var geolocation = new qq.maps.Geolocation("CLZBZ-CENER-J77WJ-WNN4Q-APRT2-A4FB4", "myapp");
-    var options = {
-        timeout: 8000 //延时
-    };
-    var geocoder;
-    var latLng;
-    // 定位成功之后调用的方法
-    function showPosition(position) {
-        let lat = position.lat;
-        let lng = position.lng;
-        // 逆地址解析(经纬度到地名转换过程)
-        geocoder = new qq.maps.Geocoder({
-            complete: function(res) {
-                console.log(res);
-                // 标志位置
-                var center = new qq.maps.LatLng(lat, lng);
-                var map = new qq.maps.Map(document.getElementById('container'), {
-                    center: center,
-                    zoom: 13
-                });
-                //创建标记
-                var marker = new qq.maps.Marker({
-                    position: center,
-                    map: map
-                });
-                //添加到提示窗
-                var info = new qq.maps.InfoWindow({
-                    map: map
-                });
-                //获取标记的点击事件
-                qq.maps.event.addListener(marker, 'click', function() {
-                    info.open();
-                    info.setContent('<div style="text-align:center;white-space:nowrap;margin:10px;">' + res.detail.address + '</div>');
-                    info.setPosition(center);
-                });
-            }
-        });
-        latLng = new qq.maps.LatLng(lat, lng);
-        geocoder.getAddress(latLng);
-    };
-    function showErr() {
-        console.log('定位失败');
+<div class="input-card" style="width: 120px">
+    <button class="btn" onclick="createPolygon()" style="margin-bottom: 5px">新建</button>
+    <button class="btn" onclick="polyEditor.open()" style="margin-bottom: 5px">开始编辑</button>
+    <button class="btn" onclick="polyEditor.close()">结束编辑</button>
+</div>
+<script type="text/javascript">
+    var map = new AMap.Map("container", {
+        center: [116.471354, 39.994257],
+        zoom: 16.8
+    });
+
+    var path1 = [[116.475334, 39.997534], [116.476627, 39.998315], [116.478603, 39.99879], [116.478529, 40.000296], [116.475082, 40.000151], [116.473421, 39.998717]]
+    var path2 = [[116.474595, 40.001321], [116.473526, 39.999865], [116.476284, 40.000917]]
+    var polygon1 = new AMap.Polygon({
+        path: path1
+    })
+    var polygon2 = new AMap.Polygon({
+        path: path2
+    })
+
+    map.add([polygon1, polygon2]);
+    map.setFitView();
+    var polyEditor = new AMap.PolygonEditor(map);
+    polyEditor.addAdsorbPolygons([polygon1, polygon2]);
+    polyEditor.on('add', function (data) {
+        console.log(data);
+        var polygon = data.target;
+        polyEditor.addAdsorbPolygons(polygon);
+        polygon.on('dblclick', () => {
+            polyEditor.setTarget(polygon);
+            polyEditor.open();
+        })
+    })
+    polygon1.on('dblclick', () => {
+        polyEditor.setTarget(polygon1);
+        polyEditor.open();
+    })
+    polygon2.on('dblclick', () => {
+        polyEditor.setTarget(polygon2);
+        polyEditor.open();
+    })
+    function createPolygon() {
+        polyEditor.close();
+        polyEditor.setTarget();
+        polyEditor.open();
     }
-    geolocation.getLocation(showPosition, showErr, options);
+    polyEditor.setTarget(polygon2);
+    polyEditor.open();
 </script>
 </body>
 </html>
