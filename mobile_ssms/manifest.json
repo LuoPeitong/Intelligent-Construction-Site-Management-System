@@ -51,16 +51,16 @@
                     "system" : {
                         "__platform__" : [ "ios", "android" ]
                     },
-                    "baidu" : {
+                    "amap" : {
                         "__platform__" : [ "ios", "android" ],
-                        "appkey_ios" : "",
-                        "appkey_android" : "kFo2Gk1mHXQTYn51eQAjkMICPoZjDsmN"
+                        "appkey_ios" : "408c1801ef3622a7a95827c67962fcff",
+                        "appkey_android" : "408c1801ef3622a7a95827c67962fcff"
                     }
                 },
                 "maps" : {
-                    "baidu" : {
-                        "appkey_ios" : "",
-                        "appkey_android" : "kFo2Gk1mHXQTYn51eQAjkMICPoZjDsmN"
+                    "amap" : {
+                        "appkey_ios" : "408c1801ef3622a7a95827c67962fcff",
+                        "appkey_android" : "408c1801ef3622a7a95827c67962fcff"
                     }
                 }
             }
@@ -98,9 +98,10 @@
         "sdkConfigs" : {
             // 使用地图或位置相关功能必须填写其一
             "maps" : {
-                "qqmap" : {
-                    // 腾讯地图秘钥 https://lbs.qq.com/dev/console/key/manage
-                    "key" : "CLZBZ-CENER-J77WJ-WNN4Q-APRT2-A4FB4"
+                "amap" : {
+                    "key" : "408c1801ef3622a7a95827c67962fcff",
+                    "securityJsCode" : "d25b4992e8c6cfe5c62fdabd1cf33a72",
+                    "serviceHost" : ""
                 }
             }
         }
