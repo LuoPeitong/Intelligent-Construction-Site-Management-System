@@ -21,10 +21,13 @@ export default {
   #menu{
     width:15vw;
     height:100vh;
-    float:left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
   }
   #tabs{
     width:84%;
-    float:left;
+    margin-left: 15vw;
   }
 </style>
