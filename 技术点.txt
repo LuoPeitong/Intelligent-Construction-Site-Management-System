@@ -158,3 +158,5 @@ computed的好处是它的结果会被缓存，只有在它依赖的数据变化
 也可以用redis来代替session
 
 vue使用全局方法:https://blog.csdn.net/mlz_2/article/details/118612100
+
+jsp页面打开乱码，需要在页面中添加<%@ page pageEncoding="utf-8" %>
