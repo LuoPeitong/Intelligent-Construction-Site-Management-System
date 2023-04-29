@@ -55,7 +55,8 @@ public class AreaServiceImpl implements AreaService {
         else{
             iAreaDao.editArea(area);
         }
-        return new Result(200,null,"操作成功");
+
+        return new Result(200,iAreaDao.getAllArea(),"操作成功");
     }
 
     @Override

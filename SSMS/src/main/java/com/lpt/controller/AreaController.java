@@ -46,4 +46,17 @@ public class AreaController {
             return new Result(400,null,"出错了,请联系开发人员");
         }
     }
+
+    @CrossOrigin
+    @ResponseBody
+    @RequestMapping(value = "/area/delArea")
+    public Result delArea(@RequestBody Area area) {
+        try{
+            areaService.delArea(area);
+            return new Result(200,null,"删除成功");
+        }
+        catch (Exception e) {
+            return new Result(400,null,"出错了,请联系开发人员");
+        }
+    }
 }
