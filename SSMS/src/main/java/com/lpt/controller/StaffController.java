@@ -30,9 +30,14 @@ public class StaffController {
     @ResponseBody
     public Result edit(@RequestBody Staff staff) {
 
-        // System.out.println(staff.toString());
-        staffService.editStaff(staff);
-        return new Result(200, null,"编辑成功");
+        try{
+            staffService.editStaff(staff);
+            return new Result(200, null,"编辑成功");
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return new Result(400, null,"出错了");
+        }
     }
 
     @CrossOrigin

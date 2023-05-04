@@ -10,5 +10,5 @@ public class Login implements Serializable {
     private Integer id;
     private String jobNo;
     private String pwd;
-    private String permissions;
+    private char permissions;
 }

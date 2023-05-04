@@ -1,9 +1,11 @@
 package com.lpt.service.Impl;
 
 import com.lpt.dao.IDepartmentDao;
+import com.lpt.dao.ILoginDao;
 import com.lpt.dao.IProjectDao;
 import com.lpt.dao.IStaffDao;
 import com.lpt.pojo.Department;
+import com.lpt.pojo.Login;
 import com.lpt.pojo.Project;
 import com.lpt.pojo.Staff;
 import com.lpt.result.pojo.StaffList;
@@ -25,6 +27,9 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private IProjectDao iProjectDao;
+
+    @Autowired
+    private ILoginDao iLoginDao;
 
     @Override
     public List<StaffList> findAll(){
@@ -68,11 +73,21 @@ public class StaffServiceImpl implements StaffService {
     public void editStaff(Staff staff){
 
         if(staff.getId()!=null) {
+            System.out.println("执行了！=null");
             iStaffDao.update(staff);
         }
         else{
+
             staff.setIsOnline("离线");
             iStaffDao.add(staff);
+
+            System.out.println("执行了==null");
+            Login login = new Login();
+            login.setJobNo(staff.getJobNo());
+            login.setPermissions('0');
+            login.setPwd("123");
+            System.out.println(login);
+            iLoginDao.add(login);
         }
     }
 

@@ -111,13 +111,7 @@ export default {
             id: row.id
           })
           .then(successResponse => {
-            if (successResponse.data.code === 200) {
-              const h = this.$createElement
-              this.$notify({
-                title: '成功',
-                message: h('i', {style: 'color: teal'}, successResponse.data.message)
-              })
-            }
+            this.PrintMessage(successResponse.data.code, successResponse.data.message)
           })
           .catch(failResponse => {
           })
@@ -148,7 +142,7 @@ export default {
     },
     // dialog 确认
     dialogConfirm () {
-      console.log(JSON.stringify(this.form))
+      // console.log(JSON.stringify(this.form))
       this.$axios
         .post('staff/edit', {
           id: this.form.id,
@@ -160,14 +154,7 @@ export default {
           projectId: this.form.projectId
         })
         .then(successResponse => {
-          if (successResponse.data.code === 200) {
-            const h = this.$createElement
-            this.$notify({
-              title: '成功',
-              message: h('i', {style: 'color: teal'}, successResponse.data.message)
-            })
-            // console.log(successResponse.data.message)
-          }
+          this.PrintMessage(successResponse.data.code, successResponse.data.message)
         })
         .catch(failResponse => {
         })
