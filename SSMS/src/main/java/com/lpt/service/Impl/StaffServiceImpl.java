@@ -8,6 +8,7 @@ import com.lpt.pojo.Department;
 import com.lpt.pojo.Login;
 import com.lpt.pojo.Project;
 import com.lpt.pojo.Staff;
+import com.lpt.result.Result;
 import com.lpt.result.pojo.StaffList;
 import com.lpt.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +71,9 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void editStaff(Staff staff){
+    public Result editStaff(Staff staff){
 
         if(staff.getId()!=null) {
-            System.out.println("执行了！=null");
             iStaffDao.update(staff);
         }
         else{
@@ -81,7 +81,6 @@ public class StaffServiceImpl implements StaffService {
             staff.setIsOnline("离线");
             iStaffDao.add(staff);
 
-            System.out.println("执行了==null");
             Login login = new Login();
             login.setJobNo(staff.getJobNo());
             login.setPermissions('0');
@@ -89,12 +88,19 @@ public class StaffServiceImpl implements StaffService {
             System.out.println(login);
             iLoginDao.add(login);
         }
+        return new Result(200,iStaffDao.findAll(),"编辑成功");
     }
 
     @Override
-    public void deleteStaff(Staff staff){
+    public Result deleteStaff(Staff staff){
 
+        Staff s = iStaffDao.getById(staff);
+        Login login = new Login();
+        login.setJobNo(s.getJobNo());
+        iLoginDao.delete(login);
         iStaffDao.delete(staff);
+
+        return new Result(200,iStaffDao.findAll(),"删除成功");
     }
 
     @Override

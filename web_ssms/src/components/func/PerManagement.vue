@@ -111,6 +111,7 @@ export default {
             id: row.id
           })
           .then(successResponse => {
+            this.staffList = successResponse.data.object
             this.PrintMessage(successResponse.data.code, successResponse.data.message)
           })
           .catch(failResponse => {
@@ -154,6 +155,7 @@ export default {
           projectId: this.form.projectId
         })
         .then(successResponse => {
+          this.staffList = successResponse.data.object
           this.PrintMessage(successResponse.data.code, successResponse.data.message)
         })
         .catch(failResponse => {

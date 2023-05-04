@@ -31,8 +31,8 @@ public class StaffController {
     public Result edit(@RequestBody Staff staff) {
 
         try{
-            staffService.editStaff(staff);
-            return new Result(200, null,"编辑成功");
+
+            return staffService.editStaff(staff);
         }
         catch (Exception e){
             System.out.println(e);
@@ -45,8 +45,13 @@ public class StaffController {
     @ResponseBody
     public Result deleteStaff(@RequestBody Staff staff) {
 
-        // System.out.println(staff.toString());
-        staffService.deleteStaff(staff);
-        return new Result(200, null,"删除成功");
+        try{
+
+            return staffService.deleteStaff(staff);
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return new Result(400, null,"出错了");
+        }
     }
 }

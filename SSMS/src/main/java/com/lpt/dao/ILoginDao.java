@@ -1,6 +1,8 @@
 package com.lpt.dao;
 
 import com.lpt.pojo.Login;
+import com.lpt.pojo.Staff;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,8 @@ public interface ILoginDao {
 
     @Insert("insert into login(job_no,pwd,permissions) value(#{jobNo},#{pwd},#{permissions})")
     public void add(Login login);
+
+    // 删除
+    @Delete("delete from login where job_no=#{jobNo}")
+    public void delete(Login login);
 }
