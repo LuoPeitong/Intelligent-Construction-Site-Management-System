@@ -14,7 +14,7 @@ public interface AttendanceService {
 
     public void export() throws IOException;
 
-    public ResponsePerStatistics findData(Attendance attendance);
+    public Result findData(Attendance attendance);
 
     public Result signIn(Attendance attendance);
 

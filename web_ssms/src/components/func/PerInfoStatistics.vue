@@ -1,5 +1,16 @@
 <template>
-  <div>
+  <div class="container">
+    <div class="block">
+      <span class="demonstration">时间选择：</span>
+      <el-date-picker
+        v-model="moment"
+        align="right"
+        type="date"
+        value-format="yyyy-MM-dd"
+        placeholder="选择日期"
+        :picker-options="pickerOptions">
+      </el-date-picker>
+    </div>
     <el-descriptions class="margin-top" title="人员统计信息" :column="2" border>
       <el-descriptions-item>
         <template slot="label">总人数</template>
@@ -88,11 +99,43 @@ export default {
     return {
       // 用于根据日期查询 最早进场人员信息 最晚离场人员信息
       moment: '2022-12-12',
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > Date.now()
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        }, {
+          text: '昨天',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24)
+            picker.$emit('pick', date)
+          }
+        }, {
+          text: '一周前',
+          onClick (picker) {
+            const date = new Date()
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', date)
+          }
+        }]
+      },
       perStatistics: []
     }
   },
-  mounted () {
+  created () {
     this.findData()
+  },
+  watch: {
+    moment: function (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.findData()
+      }
+    }
   },
   methods: {
     findData () {
@@ -103,6 +146,8 @@ export default {
         .then(successResponse => {
           if (successResponse.data.code === 200) {
             this.perStatistics = successResponse.data.object
+          } else {
+            this.PrintMessage(successResponse.data.code, successResponse.data.message)
           }
         })
         .catch(failResponse => {
@@ -113,5 +158,13 @@ export default {
 </script>
 
 <style scoped>
-
+.block{
+  margin-bottom: 20px;
+}
+.container{
+  margin-left:20px;
+}
+.margin-top{
+  margin-bottom:20px;
+}
 </style>

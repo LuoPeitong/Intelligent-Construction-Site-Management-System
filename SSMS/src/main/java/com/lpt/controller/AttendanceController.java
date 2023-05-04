@@ -41,7 +41,7 @@ public class AttendanceController {
     @RequestMapping(value = "/attendance/findData")
     public Result findOriginal(@RequestBody Attendance attendance) {
 
-        return new Result(200,attendanceService.findData(attendance),"获取成功");
+        return attendanceService.findData(attendance);
     }
 
     @CrossOrigin

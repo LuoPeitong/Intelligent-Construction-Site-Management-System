@@ -76,9 +76,10 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public ResponsePerStatistics findData(Attendance attendance){
+    public Result findData(Attendance attendance){
 
         ResponsePerStatistics responsePerStatistics=new ResponsePerStatistics();
+        // 获取在线、离线人数 第一项数据是在线人数，第二项数据是离线人数
         List<Integer> integers = iStaffDao.getOnline();
         responsePerStatistics.setTotal(integers.get(0)+integers.get(1));
         responsePerStatistics.setIsOnline(integers.get(0));
@@ -89,7 +90,19 @@ public class AttendanceServiceImpl implements AttendanceService {
         responsePerStatistics.setLast(iAttendanceDao.findLast(attendance));
         responsePerStatistics.setOriginal(iAttendanceDao.findOriginal(attendance));
 
-        return responsePerStatistics;
+        if(responsePerStatistics.getLeaveEarly()==null){
+            return new Result(201,null,"当日无最早离场信息");
+        }
+        if(responsePerStatistics.getLateEnter()==null){
+            return new Result(201,null,"当日无最晚进厂信息");
+        }
+        if(responsePerStatistics.getLast()==null){
+            return new Result(201,null,"当日无最晚离场人员信息");
+        }
+        if(responsePerStatistics.getOriginal()==null){
+            return new Result(201,null,"当日无最早进场人员信息");
+        }
+        return new Result(200,responsePerStatistics,"请求成功");
     }
 
     @Override
