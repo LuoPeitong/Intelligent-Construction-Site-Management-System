@@ -2,6 +2,7 @@ package com.lpt.service;
 
 import com.lpt.pojo.Attendance;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.result.pojo.ResponseAttendance;
 import com.lpt.result.pojo.ResponsePerStatistics;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public interface AttendanceService {
 
-    public List<Attendance> findAll();
+    public Result getAttendData(RequestAttendance requestAttendance);
 
-    public void export() throws IOException;
+    public void export(RequestAttendance requestAttendance) throws IOException;
 
     public Result findData(Attendance attendance);
 

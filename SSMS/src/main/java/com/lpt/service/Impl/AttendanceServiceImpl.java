@@ -4,6 +4,7 @@ import com.lpt.dao.IAttendanceDao;
 import com.lpt.dao.IStaffDao;
 import com.lpt.pojo.Attendance;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.result.pojo.ResponseAttendance;
 import com.lpt.result.pojo.ResponsePerStatistics;
 import com.lpt.service.AttendanceService;
@@ -31,15 +32,22 @@ public class AttendanceServiceImpl implements AttendanceService {
     private IStaffDao iStaffDao;
 
     @Override
-    public List<Attendance> findAll(){
+    public Result getAttendData(RequestAttendance requestAttendance){
 
-        return iAttendanceDao.findAll();
+        List<Attendance> list = iAttendanceDao.getAttendData(requestAttendance);
+        if(list.size()>=1){
+
+            return new Result(200,list,"请求成功");
+        }
+        else {
+            return new Result(201,null,"没有数据");
+        }
     }
 
     @Override
-    public void export() throws IOException {
+    public void export(RequestAttendance requestAttendance) throws IOException {
 
-        List<Attendance> attendances = iAttendanceDao.findAll();
+        List<Attendance> attendances = iAttendanceDao.getAttendData(requestAttendance);
 
         //创建工作簿 类似于创建Excel文件
         XSSFWorkbook workbook=new XSSFWorkbook();
@@ -66,8 +74,11 @@ public class AttendanceServiceImpl implements AttendanceService {
             row.createCell(3).setCellValue(attendance.getEnterMoment());
             row.createCell(4).setCellValue(attendance.getLeaveMoment());
         }
+        String projectPath = System.getProperty("user.dir");
+        String relativePath = "员工考勤.xlsx";
+
         //设定 路径
-        File file = new File("C:\\Users\\不呆\\Desktop\\员工考勤.xlsx");
+        File file = new File(projectPath + "/" + relativePath);
         FileOutputStream stream = new FileOutputStream(file);
         // 需要抛异常
         workbook.write(stream);

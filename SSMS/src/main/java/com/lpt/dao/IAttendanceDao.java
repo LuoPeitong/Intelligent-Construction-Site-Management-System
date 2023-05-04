@@ -1,6 +1,7 @@
 package com.lpt.dao;
 
 import com.lpt.pojo.Attendance;
+import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.result.pojo.ResponseAttendance;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -11,8 +12,8 @@ import java.util.List;
 @Repository
 public interface IAttendanceDao {
 
-    @Select("select a.moment,a.job_no,b.name,a.enter_moment,a.leave_moment from attendance as a ,staff as b where a.job_no =b.job_no order by a.moment")
-    public List<Attendance> findAll();
+    @Select("select a.moment,a.job_no,b.name,a.enter_moment,a.leave_moment from attendance as a ,staff as b where a.job_no =b.job_no and moment between #{beginDate} and #{endDate} order by a.moment")
+    public List<Attendance> getAttendData(RequestAttendance requestAttendance);
 
     // 所选日期 最早入场
     @Select("select a.enter_moment,a.leave_moment,b.job_no,b.name,c.name departmentName,p.name projectName from attendance as a,staff as b, department as c, project as p where a.moment=#{moment} and a.job_no =b.job_no  and b.department_id =c.id  and b.project_id =p.id  order by enter_moment  limit 1")
