@@ -4,19 +4,24 @@
 		<text>{{staff.jobNo}}</text>
 		<text>{{staff.departmentName}}</text>
 		<text>{{staff.projectName}}</text>
-		<!-- <button @tap="getLocation">定位</button> -->
+		<!-- <button @click="getLocation">定位</button> -->
 		<button @click="inputDialogToggle">定位</button>
-		<button @tap="signIn">签到</button>
-		<button @tap="signOut">签退</button>
-		<button @tap="logOut">退出登录</button>
+		<button @click="signIn">签到</button>
+		<button @click="signOut">签退</button>
+		<button @click="editPassword">修改密码</button>
+		<button @click="logOut">退出登录</button>
 
-		<view>
-			<uni-popup ref="inputDialog" type="dialog">
-				<uni-popup-dialog ref="inputClose" mode="input" title="输入当前位置"  placeholder="请输入坐标"
-					@confirm="dialogInputConfirm">
-				</uni-popup-dialog>
-			</uni-popup>
-		</view>
+		<uni-popup ref="inputDialog" type="dialog">
+			<uni-popup-dialog ref="inputClose" mode="input" title="输入当前位置" placeholder="请输入坐标"
+				@confirm="dialogInputConfirm">
+			</uni-popup-dialog>
+		</uni-popup>
+		
+		<uni-popup ref="editPwdDialog" type="dialog">
+			<uni-popup-dialog ref="inputClose" mode="input" title="修改密码" placeholder="请输入新密码"
+				@confirm="editPwdConfirm">
+			</uni-popup-dialog>
+		</uni-popup>
 	</view>
 </template>
 
@@ -25,21 +30,38 @@
 		data() {
 			return {
 				// 位置
-				location:'',
+				location: '',
 				staff: {}
 			}
 		},
-
-		onLoad() {
+		created() {
 			this.staff = uni.getStorageSync('staff');
 		},
 		methods: {
+			// 打开dialog
 			inputDialogToggle() {
 				this.$refs.inputDialog.open()
 			},
-			// 后续修改 签到、签退功能时，将此函数的确认和提交请求分离，然后由定位、签到、签退再去发送请求。
+			editPassword() {
+				this.$refs.editPwdDialog.open()
+			},
+			editPwdConfirm(val) {
+				uni.request({
+					url: this.$baseUrl + "Login/editPwd",
+					data: {
+						jobNo: this.staff.jobNo,
+						pwd:val
+					},
+					method: 'post',
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						this.PrintMessage(res.data.message)
+					}
+				})
+			},
 			dialogInputConfirm(val) {
-				console.log("location: "+ val)
 				this.location = val
 				uni.request({
 					url: this.$baseUrl + "trajectory/setLocation",
@@ -52,14 +74,7 @@
 						'content-type': 'application/json'
 					},
 					success: res => {
-						if (res.data.code == 200) {
-							setTimeout(() => {
-								this.dialogToggle(res.data.message);
-								setTimeout(() => {
-									uni.hideToast();
-								}, 1000)
-							}, 0);
-						}
+						this.PrintMessage(res.data.message)
 					}
 				})
 			},
@@ -68,16 +83,12 @@
 					type: 'gcj02',
 					geocode: true,
 					success: (res) => {
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
 						this.location = res.longitude + "," + res.latitude
-						console.log('当前位置的纬度：' + this.location);
 						this.setLocation();
 					}
 				});
-				
 			},
-			setLocation(){
+			setLocation() {
 				// 将时间和经纬存入 轨迹表(trajectory)
 				uni.request({
 					url: this.$baseUrl + "trajectory/setLocation",
@@ -90,14 +101,7 @@
 						'content-type': 'application/json'
 					},
 					success: res => {
-						if (res.data.code == 200) {
-							setTimeout(() => {
-								this.dialogToggle(res.data.message);
-								setTimeout(() => {
-									uni.hideToast();
-								}, 1000)
-							}, 0);
-						}
+						this.PrintMessage(res.data.message)
 					}
 				})
 			},
@@ -113,12 +117,7 @@
 						'content-type': 'application/json'
 					},
 					success: res => {
-						setTimeout(() => {
-							this.dialogToggle(res.data.message);
-							setTimeout(() => {
-								uni.hideToast();
-							}, 1000)
-						}, 0);
+						this.PrintMessage(res.data.message)
 					}
 				})
 			},
@@ -133,12 +132,7 @@
 						'content-type': 'application/json'
 					},
 					success: res => {
-						setTimeout(() => {
-							this.dialogToggle(res.data.message);
-							setTimeout(() => {
-								uni.hideToast();
-							}, 1000)
-						}, 0);
+						this.PrintMessage(res.data.message)
 					}
 				})
 			},
@@ -168,13 +162,6 @@
 							}, 0);
 						}
 					}
-				})
-			},
-			dialogToggle(type) {
-				uni.showToast({
-					title: type,
-					icon: 'none', //如果要纯文本，不要icon，将值设为'none'
-					duration: 2000 //持续时间为 2秒
 				})
 			}
 		}

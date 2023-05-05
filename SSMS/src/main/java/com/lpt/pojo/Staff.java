@@ -14,4 +14,5 @@ public class Staff implements Serializable {
     private String profession;
     private String isOnline;
     private Integer projectId;
+    private String email;
 }

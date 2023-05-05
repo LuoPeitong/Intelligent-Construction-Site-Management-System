@@ -14,4 +14,5 @@ public class StaffList {
     private String isOnline;
     private Integer projectId;
     private String projectName;
+    private String email;
 }

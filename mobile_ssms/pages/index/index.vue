@@ -25,20 +25,9 @@
 		},
 		methods: {
 			resetPassword() {
-				// uni.navigateTo({
-				// 	url: '../resetPassword/resetPassword'
-				// });
-				uni.request({
-					url: this.$baseUrl + "Login/resetPwd",
-					data: {
-					},
-					method: 'post',
-					header: {
-						'content-type': 'application/json'
-					},
-					success: res => {
-					}
-				})
+				uni.navigateTo({
+					url: '../resetPassword/resetPassword'
+				});
 			},
 			loginSubmit() {
 				uni.request({

@@ -50,6 +50,7 @@ public class StaffServiceImpl implements StaffService {
             s.setProfession(staff.getProfession());
             s.setProjectId(staff.getProjectId());
             s.setJobNo(staff.getJobNo());
+            s.setEmail(staff.getEmail());
             s.setDepartmentName(departments.get(staff.getDepartmentId()-1).getName());
             s.setProjectName(projects.get(staff.getProjectId()-1).getName());
             responseStaffList.add(s);

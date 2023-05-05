@@ -3,6 +3,8 @@ package com.lpt.controller;
 import com.lpt.pojo.Login;
 import com.lpt.pojo.Staff;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.Mail;
+import com.lpt.result.pojo.RequestStaff;
 import com.lpt.service.LoginService;
 import com.lpt.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @CrossOrigin
@@ -30,7 +33,31 @@ public class LoginController {
 
         try {
             return loginService.editPwd(l);
-        } catch (Exception e){
+        } catch (Exception e) {
+            return new Result(400, null, "出错了");
+        }
+    }
+    @CrossOrigin
+    @RequestMapping(value = "/Login/getCode")
+    @ResponseBody
+    public Result getCode(@RequestBody Staff staff) {
+        try {
+
+            return loginService.getCode(staff);
+        } catch (Exception e) {
+            return new Result(400,null,"出错了");
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/Login/resetPwd")
+    @ResponseBody
+    public Result resetPwd(@RequestBody RequestStaff requestStaff) {
+
+        try {
+            return loginService.resetPwd(requestStaff);
+        } catch (Exception e) {
+
             return new Result(400,null,"出错了");
         }
     }
@@ -42,9 +69,9 @@ public class LoginController {
 
         Result result = loginService.login(requestLogin);
         // 登录成功，存session
-        if(result.getCode()==200){
+        if (result.getCode() == 200) {
             HttpSession session = request.getSession(true);
-            session.setAttribute("staff",result.getObject());
+            session.setAttribute("staff", result.getObject());
         }
         return result;
     }
@@ -57,7 +84,7 @@ public class LoginController {
         staffService.SetNotOnline(staff);
         HttpSession session = request.getSession(true);
         session.removeAttribute("staff");
-        return new Result(200,null,"成功退出");
+        return new Result(200, null, "成功退出");
     }
 
     @CrossOrigin

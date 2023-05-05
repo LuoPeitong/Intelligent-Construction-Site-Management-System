@@ -27,11 +27,11 @@ public interface IStaffDao {
     public List<Staff> findAllGroupByDepartment();
 
     // 插入
-    @Insert("insert into staff (job_no, name, department_id,profession,is_online,project_id) values(#{jobNo},#{name},#{departmentId},#{profession},#{isOnline},#{projectId})")
+    @Insert("insert into staff (job_no, name, department_id,profession,is_online,project_id,email) values(#{jobNo},#{name},#{departmentId},#{profession},#{isOnline},#{projectId},#{email})")
     public void add(Staff staff);
 
     // 更新
-    @Update("update staff set job_no=#{jobNo}, name=#{name}, department_id=#{departmentId}, profession=#{profession}, is_online=#{isOnline}, project_id=#{projectId} where id=#{id}")
+    @Update("update staff set job_no=#{jobNo}, name=#{name}, department_id=#{departmentId}, profession=#{profession}, is_online=#{isOnline}, project_id=#{projectId}, email=#{email} where id=#{id}")
     public void update(Staff staff);
 
     // 删除

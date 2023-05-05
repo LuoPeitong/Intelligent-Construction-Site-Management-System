@@ -5,11 +5,15 @@ import com.lpt.dao.IStaffDao;
 import com.lpt.pojo.Login;
 import com.lpt.pojo.Staff;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.Mail;
+import com.lpt.result.pojo.RequestStaff;
 import com.lpt.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
+import java.util.Random;
 
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
@@ -24,6 +28,68 @@ public class LoginServiceImpl implements LoginService {
     public List<Login> findAll(){
 
         return iLoginDao.findAll();
+    }
+
+    @Override
+    public Result getCode(Staff staff) throws MessagingException {
+
+        if(staff.getJobNo()==null || "".equals(staff.getJobNo())){
+            return new Result(201,null,"工号不能为空");
+        }
+        if(staff.getEmail()==null || "".equals(staff.getEmail())){
+            return new Result(201,null,"工号不能为空");
+        }
+        Staff s = iStaffDao.getByJobNo(staff.getJobNo());
+        if(s==null){
+            return new Result(201,null,"工号不存在");
+        }
+        if(!s.getEmail().equals(staff.getEmail())){
+            return new Result(201,null,"邮箱不符");
+        }
+
+        Random random = new Random();
+        StringBuilder codeBuilder = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            int num = random.nextInt(75) + 48;
+            if (num > 57 && num < 65 || num > 90 && num < 97) {
+                // 排除58~64、91~96之间的符号，重新生成
+                num = random.nextInt(75) + 48;
+            }
+            char c = (char) num;
+            codeBuilder.append(c);
+        }
+
+        String to = staff.getEmail(); // 接收人的邮箱地址
+        String subject = "找回密码"; // 邮件主题
+        String content = "验证码为：" + codeBuilder.toString(); // 邮件内容
+
+        Mail.sendMail(to, subject, content);
+
+        return new Result(200,codeBuilder.toString(),"验证码发送成功");
+    }
+
+    @Override
+    public Result resetPwd(RequestStaff r){
+
+        if ( r.getPwd()==null || "".equals(r.getPwd()) ) {
+            return new Result(201,null,"密码不能为空");
+        }
+        if ( r.getInputCode()==null || "".equals(r.getInputCode()) ) {
+            return new Result(201,null,"验证码不能为空");
+        }
+        if ( r.getRealCode()==null || "".equals(r.getRealCode()) ) {
+            return new Result(400,null,"出错了");
+        }
+        if (r.getRealCode().equals(r.getInputCode())){
+            Login l = new Login();
+            l.setJobNo(r.getJobNo());
+            l.setPwd(r.getPwd());
+            iLoginDao.editPwd(l);
+            return new Result(200,null,"密码设置成功");
+        }
+        else{
+            return new Result(202,null,"验证码错误");
+        }
     }
 
     @Override
