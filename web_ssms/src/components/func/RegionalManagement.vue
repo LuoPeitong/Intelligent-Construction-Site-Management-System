@@ -18,8 +18,7 @@
         <el-button type="primary" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
-    <div id="mapContainer" v-if="path.length"></div>
-    <mapPage id="mapPage" v-else/>
+    <div id="Container"></div>
     <el-form :inline="true" :model="queryArea" class="demo-form-inline">
       <el-form-item label="区域名称">
         <el-input v-model="queryArea.name" placeholder="区域名称"></el-input>
@@ -53,11 +52,9 @@
 </template>
 
 <script>
-import mapPage from '@/components/mapPage'
 const AMap = window.AMap
 export default {
   name: 'RegionalManagement',
-  components: { mapPage },
   data () {
     return {
       editArea: {
@@ -80,13 +77,12 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-      console.log(JSON.stringify(this.editArea))
-    },
     reset () {
       this.editArea = {name: '', region: '', classes: '', createBy: '', createTime: ''}
       this.queryArea = {name: '', classes: ''}
-      this.path = []
+      if (this.isLegalCoordinate('118.194826,24.49446;118.195964,24.494536;118.196358,24.496041')) {
+        this.mapInit()
+      }
     },
     handleClick (row) {
       // 深拷贝，避免修改editArea时，row也变化
@@ -164,56 +160,83 @@ export default {
       }
       this.path = result
       return true
-      // return result
     },
     mapInit () {
       // 创建地图实例
-      this.map = new AMap.Map('mapContainer', {
+      this.map = new AMap.Map('Container', {
         zoom: 13, // 初始缩放级别
         center: this.path[0] // 初始中心点坐标
       })
 
-      // 添加标记点
-      for (let i = 0; i < this.path.length; i++) {
-        const marker = new AMap.Marker({
-          position: this.path[i],
-          map: this.map
-        })
-        this.markers.push(marker)
-      }
-
-      // 添加连线
-      const lineArr = this.path
-      const polyline = new AMap.Polyline({
-        path: lineArr,
-        strokeColor: '#FF0000',
-        strokeWeight: 3,
-        strokeOpacity: 1,
-        strokeStyle: 'solid',
-        strokeDasharray: [10, 5]
+      var polygon = new AMap.Polygon({
+        path: this.path
       })
-      this.map.add(polyline)
 
-      // 创建多边形
-      this.polygon = new AMap.Polygon({
-        path: lineArr,
-        fillColor: '#00BFFF', // 填充颜色
-        fillOpacity: 0.35, // 填充透明度
-        strokeColor: '#00BFFF', // 边线颜色
-        strokeWeight: 3, // 边线宽度
-        strokeOpacity: 1, // 边线透明度
-        strokeStyle: 'solid', // 边线样式
-        strokeDasharray: [10, 5] // 边线虚线样式
-      })
-      this.map.add(this.polygon)
+      // 将多边形添加到地图上
+      this.map.add([polygon])
 
       // 自适应显示多边形
-      this.map.setFitView([this.polygon])
+      this.map.setFitView()
+
+      // 创建多边形编辑器
+      var polyEditor = new AMap.PolygonEditor(this.map)
+
+      // 监听多边形修改事件
+      polyEditor.on('adjust', () => {
+        // 获取修改后的路径
+        var newPath = polygon.getPath()
+
+        // 将修改后的路径赋值给 this.path[]
+        this.path = newPath
+      })
+
+      // 将多边形添加到吸附列表中
+      polyEditor.addAdsorbPolygons([polygon])
+
+      // 监听多边形添加事件
+      polyEditor.on('add', function (data) {
+        var polygon = data.target
+        polyEditor.addAdsorbPolygons(polygon)
+
+        // 双击多边形打开编辑器
+        polygon.on('dblclick', () => {
+          polyEditor.setTarget(polygon)
+          polyEditor.open()
+        })
+      })
+
+      // 双击多边形打开编辑器
+      polygon.on('dblclick', () => {
+        polyEditor.setTarget(polygon)
+        polyEditor.open()
+      })
+
+      polyEditor.setTarget(polygon)
+      polyEditor.open()
+
+      // 监听地图的 click 事件
+      this.map.on('click', () => {
+        // 结束多边形编辑
+        polyEditor.close()
+      })
+
+      polyEditor.on('end', (event) => {
+        const path = event.target.getPath()
+        console.log(path)
+        this.path = path
+        console.log('this path = ' + this.path)
+        this.editArea.region = this.path.map(p => `${p.lng},${p.lat}`).join(';')
+      })
     }
   },
   created () {
     this.getAreaTable()
     this.staff = JSON.parse(sessionStorage.getItem('staff'))
+  },
+  mounted () {
+    if (this.isLegalCoordinate('118.194826,24.49446;118.195964,24.494536;118.196358,24.496041')) {
+      this.mapInit()
+    }
   }
 }
 </script>
@@ -222,12 +245,7 @@ export default {
 .regionInput {
   width: 400px;
 }
-#mapContainer {
-  width: 100%;
-  height:400px;
-  margin-bottom:20px;
-}
-#mapPage{
+#Container {
   width: 100%;
   height:400px;
   margin-bottom:20px;
