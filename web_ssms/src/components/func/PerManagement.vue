@@ -10,13 +10,14 @@
       <el-button @click="addButton" type="primary">新增</el-button>
     </div>
     <el-table :data="staffList.filter(data => !search || data.projectName.toLowerCase().includes(search.toLowerCase()))" stripe
-             max-height="565" style="width: 100%">
+              fit max-height="565" style="width: 100%">
             <el-table-column label="工号" prop="jobNo"></el-table-column>
             <el-table-column label="姓名" prop="name"></el-table-column>
             <el-table-column label="部门" prop="departmentName"></el-table-column>
             <el-table-column label="工种" prop="profession"></el-table-column>
             <el-table-column label="项目组" prop="projectName"></el-table-column>
             <el-table-column label="状态" prop="isOnline"></el-table-column>
+            <el-table-column label="邮箱" prop="email"></el-table-column>
             <el-table-column align="right">
               <template slot="header" slot-scope="scope">
                 <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/>
@@ -40,6 +41,9 @@
           </el-form-item>
           <el-form-item label="工种" :label-width="formLabelWidth">
             <el-input v-model="form.profession" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱" :label-width="formLabelWidth">
+            <el-input v-model="form.email" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="部门" :label-width="formLabelWidth">
             <el-select v-model="form.departmentId" placeholder="请选择部门">
@@ -81,7 +85,8 @@ export default {
         departmentId: '',
         projectId: '',
         profession: '',
-        isOnline: ''
+        isOnline: '',
+        email: ''
       },
       // Dialog中表单标签的宽
       formLabelWidth: '120px'
@@ -152,7 +157,8 @@ export default {
           departmentId: this.form.departmentId,
           profession: this.form.profession,
           isOnline: this.form.isOnline,
-          projectId: this.form.projectId
+          projectId: this.form.projectId,
+          email: this.form.email
         })
         .then(successResponse => {
           this.staffList = successResponse.data.object
