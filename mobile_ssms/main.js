@@ -1,13 +1,15 @@
 import App from './App'
-
+import publicFunc from './publicFunc'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
 
 // 服务器地址
-Vue.prototype.$baseUrl = "http://47.120.42.193:8443/SSMS/"
+//Vue.prototype.$baseUrl = "http://47.120.42.193:8443/SSMS/"
 // 本地地址
-//Vue.prototype.$baseUrl = "http://localhost:8443/SSMS_war_exploded/"
+Vue.prototype.$baseUrl = "http://localhost:8443/SSMS_war_exploded/"
+
+Vue.use(publicFunc)
 
 App.mpType = 'app'
 const app = new Vue({

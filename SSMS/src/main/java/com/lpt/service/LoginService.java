@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface LoginService {
 
-    public List<Login> findAll();
+    List<Login> findAll();
 
-    public Result login(Login login);
+    Result login(Login login);
 
-    public void add(Login login);
+    void add(Login login);
+
+    Result editPwd(Login login);
 }

@@ -24,6 +24,18 @@ public class LoginController {
     private StaffService staffService;
 
     @CrossOrigin
+    @RequestMapping(value = "/Login/editPwd")
+    @ResponseBody
+    public Result editPwd(@RequestBody Login l) {
+
+        try {
+            return loginService.editPwd(l);
+        } catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/login")
     @ResponseBody
     public Result login(@RequestBody Login requestLogin, HttpServletRequest request) {

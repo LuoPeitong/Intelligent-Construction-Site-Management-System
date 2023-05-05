@@ -27,6 +27,18 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    public Result editPwd(Login login){
+        if ( login.getPwd()==null || "".equals(login.getPwd()) ) {
+            return new Result(201,null,"密码不能为空");
+        }
+        if ( login.getJobNo()==null || "".equals(login.getJobNo()) ) {
+            return new Result(201,null,"请登录后重试");
+        }
+        iLoginDao.editPwd(login);
+        return new Result(200,null,"修改密码成功");
+    }
+
+    @Override
     public Result login(Login login){
 
         Login responseLogin = iLoginDao.getByJobNo(login);

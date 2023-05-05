@@ -9,6 +9,9 @@
 		<view class="load-button">
 			<button class="button" type="primary" @tap="loginSubmit">登录</button>
 		</view>
+		<view class="other">
+			<text class="textBox" @click="resetPassword">忘记密码</text>
+		</view>
 	</view>
 </template>
 
@@ -20,10 +23,23 @@
 				password: ''
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
+			resetPassword() {
+				// uni.navigateTo({
+				// 	url: '../resetPassword/resetPassword'
+				// });
+				uni.request({
+					url: this.$baseUrl + "Login/resetPwd",
+					data: {
+					},
+					method: 'post',
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+					}
+				})
+			},
 			loginSubmit() {
 				uni.request({
 					url: this.$baseUrl + "login",
@@ -52,13 +68,6 @@
 						}
 					}
 				})
-			},
-			dialogToggle(type) {
-				uni.showToast({
-					title: type,
-					icon: 'none', //如果要纯文本，不要icon，将值设为'none'
-					duration: 2000 //持续时间为 2秒
-				})
 			}
 		}
 	}
@@ -70,16 +79,15 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		width: 100vw;
 		height: 100vh;
-		background-color: #E3EDCD;
+		background: linear-gradient(to top, #9dfa91, #5a9ebd);
 	}
 
 	.inputWrapper {
 		width: 70%;
-		height: 80upx;
+		height: 40px;
 		background: white;
-		border-radius: 20px;
+		border-radius: 10px;
 		box-sizing: border-box;
 		padding: 0 20px;
 		margin-top: 25px;
@@ -94,15 +102,14 @@
 
 	.load-button {
 		width: 70%;
-		height: 80upx;
+		height: 80px;
 		box-sizing: border-box;
-		padding: 0 20px;
 		margin-top: 15px;
 	}
 
 	.button {
 		width: 100%;
-		height: 80upx;
+		height: 40px;
 		border-radius: 20px;
 		box-sizing: border-box;
 		display: flex;
@@ -110,21 +117,13 @@
 		align-items: center;
 		margin-top: 25px;
 	}
-
-	.avatarWrapper {
-		height: 30vh; //屏幕的三分之一
-		width: 100vw; //屏幕宽不变
-		display: flex;
-		justify-content: center; //居中
+	
+	.other{
+		margin-top: 10px;
 	}
-
-	.avatar {
-		height: 200upx;
-		width: 200upx;
-		border-radius: 50%;
-	}
-
-	.avatar .img {
-		width: 100%;
+	
+	.textBox{
+		margin-left: 100px;
+		color: #666;
 	}
 </style>
