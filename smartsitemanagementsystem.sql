@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : 47.120.42.193_3306
  Source Server Type    : MySQL
- Source Server Version : 80025
- Source Host           : localhost:3306
- Source Schema         : smartsitemanagementsystem
+ Source Server Version : 80033
+ Source Host           : 47.120.42.193:3306
+ Source Schema         : SmartSiteManagementSystem
 
  Target Server Type    : MySQL
- Target Server Version : 80025
+ Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 28/04/2023 20:56:04
+ Date: 05/05/2023 16:01:55
 */
 
 SET NAMES utf8mb4;
@@ -44,12 +44,12 @@ CREATE TABLE `area`  (
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of area
 -- ----------------------------
-INSERT INTO `area` VALUES (1, '11', '1', '1', '张三', '2023-04-28 18:06:34');
+INSERT INTO `area` VALUES (7, '118.19517842742541,24.49466388726988;118.19555393668741,24.49471758507689;118.19594017478561,24.49584035214138;118.19553784343341,24.49598679927983', '1', '上班区域', '张三', '2023-04-29 17:54:47');
 
 -- ----------------------------
 -- Table structure for attendance
@@ -201,6 +201,8 @@ INSERT INTO `attendance` VALUES (129, '2022-12-13', 'qwe043', '10:04:29', '17:53
 INSERT INTO `attendance` VALUES (130, '2023-04-14', 'qwe001', '11:42:42', '11:59:39');
 INSERT INTO `attendance` VALUES (131, '2023-04-15', NULL, '15:24:14', NULL);
 INSERT INTO `attendance` VALUES (132, '2023-04-15', 'qwe001', '15:25:20', NULL);
+INSERT INTO `attendance` VALUES (133, '2023-05-05', 'qwe001', '09:48:44', '10:06:49');
+INSERT INTO `attendance` VALUES (134, '2023-05-05', 'qwe002', '10:07:26', '10:07:27');
 
 -- ----------------------------
 -- Table structure for department
@@ -232,6 +234,7 @@ CREATE TABLE `func`  (
   `menu_id` int(0) UNSIGNED NOT NULL,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
+  `permissions` enum('1','0','2') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_func_menu_on_menuid`(`menu_id`) USING BTREE,
   CONSTRAINT `fk_func_menu_on_menuid` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -240,17 +243,17 @@ CREATE TABLE `func`  (
 -- ----------------------------
 -- Records of func
 -- ----------------------------
-INSERT INTO `func` VALUES (3, 1, '项目人员管理', 'PerManagement');
-INSERT INTO `func` VALUES (4, 1, '人员报表查询', 'PerReport');
-INSERT INTO `func` VALUES (5, 2, '人员实时分布监测', 'PerDistribution');
-INSERT INTO `func` VALUES (6, 2, '人员信息监测', 'PerInfoMonitoring');
-INSERT INTO `func` VALUES (7, 3, '人员实时轨迹', 'PerRealTimeTrack');
-INSERT INTO `func` VALUES (8, 3, '人员统计信息', 'PerInfoStatistics');
-INSERT INTO `func` VALUES (9, 4, '考勤管理', 'AttManagement');
-INSERT INTO `func` VALUES (10, 5, '区域管理', 'RegionalManagement');
-INSERT INTO `func` VALUES (11, 6, '告警管理', 'AlarmManagement');
-INSERT INTO `func` VALUES (12, 7, '组织结构管理', 'null');
-INSERT INTO `func` VALUES (13, 7, '管理人员设置', 'null');
+INSERT INTO `func` VALUES (3, 1, '项目人员管理', 'PerManagement', '1');
+INSERT INTO `func` VALUES (4, 1, '人员报表查询', 'PerReport', '1');
+INSERT INTO `func` VALUES (5, 2, '人员实时分布监测', 'PerDistribution', '1');
+INSERT INTO `func` VALUES (6, 2, '人员信息监测', 'PerInfoMonitoring', '1');
+INSERT INTO `func` VALUES (7, 3, '人员实时轨迹', 'PerRealTimeTrack', '1');
+INSERT INTO `func` VALUES (8, 3, '人员统计信息', 'PerInfoStatistics', '1');
+INSERT INTO `func` VALUES (9, 4, '考勤管理', 'AttManagement', '1');
+INSERT INTO `func` VALUES (10, 5, '区域管理', 'RegionalManagement', '1');
+INSERT INTO `func` VALUES (11, 6, '告警管理', 'AlarmManagement', '1');
+INSERT INTO `func` VALUES (12, 7, '组织结构管理', 'null', '2');
+INSERT INTO `func` VALUES (13, 7, '管理人员设置', 'null', '2');
 
 -- ----------------------------
 -- Table structure for login
@@ -264,13 +267,13 @@ CREATE TABLE `login`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_login_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_login_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of login
 -- ----------------------------
 INSERT INTO `login` VALUES (1, 'qwe001', '123', '1');
-INSERT INTO `login` VALUES (2, 'qwe002', '123', '0');
+INSERT INTO `login` VALUES (2, 'qwe002', '123', '2');
 INSERT INTO `login` VALUES (3, 'qwe003', '123', '0');
 INSERT INTO `login` VALUES (4, 'qwe004', '123', '0');
 INSERT INTO `login` VALUES (5, 'qwe005', '123', '0');
@@ -321,19 +324,20 @@ CREATE TABLE `menu`  (
   `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
+  `permissions` enum('1','0','2') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `menu` VALUES (1, '人员信息管理', 'el-icon-user');
-INSERT INTO `menu` VALUES (2, '实时监测', 'el-icon-monitor');
-INSERT INTO `menu` VALUES (3, '轨迹管理', 'el-icon-location');
-INSERT INTO `menu` VALUES (4, '考勤管理', 'el-icon-coffee-cup');
-INSERT INTO `menu` VALUES (5, '区域管理', 'el-icon-coordinate');
-INSERT INTO `menu` VALUES (6, '告警管理', 'el-icon-view');
-INSERT INTO `menu` VALUES (7, '超级管理员', 'el-icon-s-custom');
+INSERT INTO `menu` VALUES (1, '人员信息管理', 'el-icon-user', '1');
+INSERT INTO `menu` VALUES (2, '实时监测', 'el-icon-monitor', '1');
+INSERT INTO `menu` VALUES (3, '轨迹管理', 'el-icon-location', '1');
+INSERT INTO `menu` VALUES (4, '考勤管理', 'el-icon-coffee-cup', '1');
+INSERT INTO `menu` VALUES (5, '区域管理', 'el-icon-coordinate', '1');
+INSERT INTO `menu` VALUES (6, '告警管理', 'el-icon-view', '1');
+INSERT INTO `menu` VALUES (7, '超级管理员', 'el-icon-s-custom', '2');
 
 -- ----------------------------
 -- Table structure for project
@@ -371,60 +375,61 @@ CREATE TABLE `staff`  (
   `profession` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `is_online` enum('在线','离线') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '离线',
   `project_id` int(0) UNSIGNED NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `job_no`(`job_no`) USING BTREE,
   INDEX `fk_staff_department_on_departmentid`(`department_id`) USING BTREE,
   INDEX `fk_staff_project_on_projectid`(`project_id`) USING BTREE,
   CONSTRAINT `fk_staff_department_on_departmentid` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_staff_project_on_projectid` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of staff
 -- ----------------------------
-INSERT INTO `staff` VALUES (1, 'qwe001', '张三', 1, '技术员', '在线', 1);
-INSERT INTO `staff` VALUES (2, 'qwe002', '李四', 1, '技术员', '离线', 1);
-INSERT INTO `staff` VALUES (3, 'qwe003', '王二', 1, '工程师', '离线', 1);
-INSERT INTO `staff` VALUES (4, 'qwe004', '赵钱', 2, '项目主管', '离线', 1);
-INSERT INTO `staff` VALUES (5, 'qwe005', '孙李', 2, '施工员', '离线', 2);
-INSERT INTO `staff` VALUES (6, 'qwe006', '周吴', 3, '人事', '离线', 3);
-INSERT INTO `staff` VALUES (7, 'qwe007', '郑王', 4, '验收员', '离线', 4);
-INSERT INTO `staff` VALUES (8, 'qwe008', '冯陈', 4, '验收员', '离线', 5);
-INSERT INTO `staff` VALUES (9, 'qwe009', '禇卫', 6, '大厨', '离线', 6);
-INSERT INTO `staff` VALUES (10, 'qwe010', '蒋沈', 6, '副厨', '离线', 4);
-INSERT INTO `staff` VALUES (11, 'qwe011', '韩杨', 5, '质量审核员', '离线', 2);
-INSERT INTO `staff` VALUES (12, 'qwe012', '朱秦', 1, '工程师', '离线', 1);
-INSERT INTO `staff` VALUES (13, 'qwe013', '尤许', 2, '项目主管', '离线', 1);
-INSERT INTO `staff` VALUES (14, 'qwe014', '何吕', 2, '施工员', '离线', 2);
-INSERT INTO `staff` VALUES (15, 'qwe015', '施张', 3, '人事', '离线', 1);
-INSERT INTO `staff` VALUES (16, 'qwe016', '孔曹', 4, '验收员', '离线', 2);
-INSERT INTO `staff` VALUES (17, 'qwe017', '严华', 4, '验收员', '离线', 4);
-INSERT INTO `staff` VALUES (18, 'qwe018', '金魏', 6, '大厨', '离线', 3);
-INSERT INTO `staff` VALUES (19, 'qwe019', '陶姜', 6, '副厨', '离线', 4);
-INSERT INTO `staff` VALUES (20, 'qwe020', '戚谢', 5, '质量审核员', '离线', 5);
-INSERT INTO `staff` VALUES (21, 'qwe021', '邹喻', 1, '技术员', '离线', 6);
-INSERT INTO `staff` VALUES (22, 'qwe022', '柏水', 1, '技术员', '离线', 5);
-INSERT INTO `staff` VALUES (23, 'qwe023', '窦章', 1, '工程师', '离线', 6);
-INSERT INTO `staff` VALUES (24, 'qwe024', '云苏', 2, '项目主管', '离线', 4);
-INSERT INTO `staff` VALUES (25, 'qwe025', '潘葛', 2, '施工员', '离线', 2);
-INSERT INTO `staff` VALUES (26, 'qwe026', '奚范', 3, '人事', '离线', 1);
-INSERT INTO `staff` VALUES (27, 'qwe027', '彭郎', 1, '工程师', '离线', 1);
-INSERT INTO `staff` VALUES (28, 'qwe028', '鲁韦', 2, '项目主管', '离线', 1);
-INSERT INTO `staff` VALUES (29, 'qwe029', '昌马', 2, '施工员', '离线', 2);
-INSERT INTO `staff` VALUES (30, 'qwe030', '苗凤', 3, '人事', '离线', 3);
-INSERT INTO `staff` VALUES (31, 'qwe031', '花方', 4, '验收员', '离线', 4);
-INSERT INTO `staff` VALUES (32, 'qwe032', '俞任', 4, '验收员', '离线', 5);
-INSERT INTO `staff` VALUES (33, 'qwe033', '袁柳', 6, '大厨', '离线', 6);
-INSERT INTO `staff` VALUES (34, 'qwe034', '酆鲍', 6, '副厨', '离线', 4);
-INSERT INTO `staff` VALUES (35, 'qwe035', '史唐', 5, '质量审核员', '离线', 2);
-INSERT INTO `staff` VALUES (36, 'qwe036', '费廉', 1, '工程师', '离线', 1);
-INSERT INTO `staff` VALUES (37, 'qwe037', '岑薛', 2, '项目主管', '离线', 1);
-INSERT INTO `staff` VALUES (38, 'qwe038', '雷贺', 2, '施工员', '离线', 2);
-INSERT INTO `staff` VALUES (39, 'qwe039', '倪汤', 3, '人事', '离线', 1);
-INSERT INTO `staff` VALUES (40, 'qwe040', '滕殷', 4, '验收员', '离线', 2);
-INSERT INTO `staff` VALUES (41, 'qwe041', '罗毕', 4, '验收员', '离线', 4);
-INSERT INTO `staff` VALUES (42, 'qwe042', '郝邬', 6, '大厨', '离线', 3);
-INSERT INTO `staff` VALUES (43, 'qwe043', '安常', 1, '技术员', '离线', 1);
+INSERT INTO `staff` VALUES (1, 'qwe001', '张三', 1, '技术员', '在线', 1, 'luopeitong0739@foxmail.com');
+INSERT INTO `staff` VALUES (2, 'qwe002', '李四', 1, '技术员', '在线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (3, 'qwe003', '王二', 1, '工程师', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (4, 'qwe004', '赵钱', 2, '项目主管', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (5, 'qwe005', '孙李', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (6, 'qwe006', '周吴', 3, '人事', '离线', 3, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (7, 'qwe007', '郑王', 4, '验收员', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (8, 'qwe008', '冯陈', 4, '验收员', '离线', 5, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (9, 'qwe009', '禇卫', 6, '大厨', '离线', 6, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (10, 'qwe010', '蒋沈', 6, '副厨', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (11, 'qwe011', '韩杨', 5, '质量审核员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (12, 'qwe012', '朱秦', 1, '工程师', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (13, 'qwe013', '尤许', 2, '项目主管', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (14, 'qwe014', '何吕', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (15, 'qwe015', '施张', 3, '人事', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (16, 'qwe016', '孔曹', 4, '验收员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (17, 'qwe017', '严华', 4, '验收员', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (18, 'qwe018', '金魏', 6, '大厨', '离线', 3, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (19, 'qwe019', '陶姜', 6, '副厨', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (20, 'qwe020', '戚谢', 5, '质量审核员', '离线', 5, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (21, 'qwe021', '邹喻', 1, '技术员', '离线', 6, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (22, 'qwe022', '柏水', 1, '技术员', '离线', 5, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (23, 'qwe023', '窦章', 1, '工程师', '离线', 6, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (24, 'qwe024', '云苏', 2, '项目主管', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (25, 'qwe025', '潘葛', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (26, 'qwe026', '奚范', 3, '人事', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (27, 'qwe027', '彭郎', 1, '工程师', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (28, 'qwe028', '鲁韦', 2, '项目主管', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (29, 'qwe029', '昌马', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (30, 'qwe030', '苗凤', 3, '人事', '离线', 3, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (31, 'qwe031', '花方', 4, '验收员', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (32, 'qwe032', '俞任', 4, '验收员', '离线', 5, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (33, 'qwe033', '袁柳', 6, '大厨', '离线', 6, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (34, 'qwe034', '酆鲍', 6, '副厨', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (35, 'qwe035', '史唐', 5, '质量审核员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (36, 'qwe036', '费廉', 1, '工程师', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (37, 'qwe037', '岑薛', 2, '项目主管', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (38, 'qwe038', '雷贺', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (39, 'qwe039', '倪汤', 3, '人事', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (40, 'qwe040', '滕殷', 4, '验收员', '离线', 2, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (41, 'qwe041', '罗毕', 4, '验收员', '离线', 4, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (42, 'qwe042', '郝邬', 6, '大厨', '离线', 3, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (43, 'qwe043', '安常', 1, '技术员', '离线', 1, 'lpt979210646@qq.com');
 
 -- ----------------------------
 -- Table structure for trajectory
@@ -529,22 +534,5 @@ INSERT INTO `trajectory` VALUES (83, 'qwe040', '2022-12-12 22:36:32', '118.05707
 INSERT INTO `trajectory` VALUES (84, 'qwe041', '2022-12-12 22:36:32', '118.057074, 24.380073');
 INSERT INTO `trajectory` VALUES (85, 'qwe042', '2022-12-12 22:36:32', '118.057074, 24.380073');
 INSERT INTO `trajectory` VALUES (86, 'qwe043', '2022-12-12 22:36:32', '118.057074, 24.380073');
-INSERT INTO `trajectory` VALUES (87, 'qwe001', '2023-03-16 11:52:49', '118.176733,24.497066');
-INSERT INTO `trajectory` VALUES (93, 'qwe001', '2023-03-16 13:58:21', 'location');
-INSERT INTO `trajectory` VALUES (94, 'qwe001', '2023-04-17 14:22:18', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (95, 'qwe001', '2023-04-17 14:23:05', '122.405303,39.901539');
-INSERT INTO `trajectory` VALUES (96, 'qwe001', '2023-04-17 14:27:54', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (97, 'qwe001', '2023-04-17 14:28:48', '139.7376,35.6948');
-INSERT INTO `trajectory` VALUES (98, 'qwe001', '2023-04-17 14:28:55', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (99, 'qwe001', '2023-04-17 14:30:20', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (100, 'qwe001', '2023-04-17 14:30:52', '139.7376,35.6948');
-INSERT INTO `trajectory` VALUES (101, 'qwe001', '2023-04-17 14:51:48', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (102, NULL, '2023-04-17 14:53:22', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (103, NULL, '2023-04-17 15:02:23', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (104, NULL, '2023-04-17 16:13:37', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (105, NULL, '2023-04-17 16:19:43', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (106, NULL, '2023-04-17 16:43:39', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (107, 'qwe001', '2023-04-27 11:26:05', 'undefined,undefined');
-INSERT INTO `trajectory` VALUES (108, 'qwe001', '2023-04-27 11:32:59', '116.406243,39.901403');
 
 SET FOREIGN_KEY_CHECKS = 1;

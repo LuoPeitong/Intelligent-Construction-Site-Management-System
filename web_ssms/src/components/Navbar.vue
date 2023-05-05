@@ -40,8 +40,12 @@ export default {
       this.$store.commit('saveEditableTabsValue', nav.id)
     },
     getMenu () {
+      const staff = JSON.parse(sessionStorage.getItem('staff'))
+      const jobNo = staff.jobNo
       this.$axios
-        .post('menu/getMenu', {})
+        .post('menu/getMenu', {
+          jobNo: jobNo
+        })
         .then(successResponse => {
           if (successResponse.data.code === 200) {
             this.NavbarList = successResponse.data.object

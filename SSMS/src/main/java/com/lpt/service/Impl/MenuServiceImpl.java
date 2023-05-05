@@ -4,6 +4,7 @@ import com.lpt.dao.IFuncDao;
 import com.lpt.dao.IMenuDao;
 import com.lpt.pojo.Func;
 import com.lpt.pojo.Menu;
+import com.lpt.pojo.Staff;
 import com.lpt.result.pojo.MenuList;
 import com.lpt.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class MenuServiceImpl implements MenuService {
     private IFuncDao iFuncDao;
 
     @Override
-    public List<MenuList> getMenu(){
+    public List<MenuList> getMenu(Staff staff){
 
         // 获取数据库数据
-        List<Menu> menuList = iMenuDao.getMenu();
-        List<Func> funcList = iFuncDao.getFunc();
+        List<Menu> menuList = iMenuDao.getMenu(staff);
+        List<Func> funcList = iFuncDao.getFunc(staff);
         // 返回的结果
         List<MenuList> result = new ArrayList<>();
         // 一个对象，用于往result添加

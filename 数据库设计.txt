@@ -16,7 +16,7 @@
 地图编辑：本功能的主要作用是让管理者能够在巷道结构发生变化时自行编辑及修改地图等相关信息，以满足最新的地图定位需求
 
 人员信息表(staff)
-数据编号id		工号job_no	姓名name		部门编号department_id	工种profession	连接终端状态is_online	所属项目project_id
+数据编号id		工号job_no	姓名name		部门编号department_id	工种profession	连接终端状态is_online	所属项目project_id	邮箱email
 
 考勤表(attendance)
 数据编号id		日期moment	工号job_no	进场时间enter_moment	离场时间leave_moment
@@ -28,10 +28,10 @@
 数据编号id		部门代号symbol	部门名称name
 
 一级菜单表(menu)
-菜单编号（id）	名称（title）	图片（img）
+菜单编号（id）	名称（title）	图片（img）	权限permissions
 
 二级菜单表(func)
-二级菜单编号（id）	所属一级菜单（menu_id）	名称（title）	地址（content）
+二级菜单编号（id）	所属一级菜单（menu_id）	名称（title）	地址（content）	权限permissions
 
 账号表(login)
 账号编号id		工号job_no	密码pwd		权限permissions（管理人员1、员工0、管理员2）
