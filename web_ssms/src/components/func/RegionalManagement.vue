@@ -80,9 +80,6 @@ export default {
     reset () {
       this.editArea = {name: '', region: '', classes: '', createBy: '', createTime: ''}
       this.queryArea = {name: '', classes: ''}
-      if (this.isLegalCoordinate('118.194826,24.49446;118.195964,24.494536;118.196358,24.496041')) {
-        this.mapInit()
-      }
     },
     handleClick (row) {
       // 深拷贝，避免修改editArea时，row也变化
@@ -140,7 +137,7 @@ export default {
       }
     },
     isLegalCoordinate (str) {
-      const regExp = /^(\d{1,3}\.\d{1,14}),\s*(\d{1,2}\.\d{1,14});?$/
+      const regExp = /^(\d{1,3}\.\d{1,6}),\s*(\d{1,2}\.\d{1,6});?$/
       const arr = str.split(';')
       const result = []
 
