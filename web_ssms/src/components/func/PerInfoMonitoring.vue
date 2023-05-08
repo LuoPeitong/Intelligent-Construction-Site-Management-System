@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div ref="chart" style="width: 100%; height: 350px;"></div>
+    <div>
     <el-table :data="perInfo.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
               style="width: 100%" max-height="565" :row-class-name="tableRowClassName">
       <el-table-column prop="name" label="姓名"></el-table-column>
@@ -14,10 +16,13 @@
         </template>
       </el-table-column>
     </el-table>
+    </div>
   </div>
 </template>
 
 <script>
+import * as echarts from 'echarts'
+import 'echarts/charts'
 export default {
   name: 'PerInfoMonitoring',
   data () {
@@ -33,9 +38,72 @@ export default {
     getInfo () {
       this.$axios
         .post('trajectory/getInfo', {})
-        .then(successResponse => {
-          if (successResponse.data.code === 200) {
-            this.perInfo = successResponse.data.object
+        .then(response => {
+          if (response.data.code === 200) {
+            this.perInfo = response.data.object.perInfo
+
+            // 计算各工种人数
+            const professions = {}
+            response.data.object.staffList.forEach((staff) => {
+              if (staff.profession in professions) {
+                professions[staff.profession]++
+              } else {
+                professions[staff.profession] = 1
+              }
+            })
+
+            // 计算在线、离线人数
+            let onlineCount = 0
+            let offlineCount = 0
+            response.data.object.staffList.forEach((staff) => {
+              if (staff.isOnline === '在线') {
+                onlineCount++
+              } else {
+                offlineCount++
+              }
+            })
+
+            // 创建ECharts实例
+            const chart = echarts.init(this.$refs.chart)
+            // 配置饼图
+            const options = {
+              title: [{
+                text: '各工种人数',
+                x: '22%',
+                y: 'top'
+              }, {
+                text: '在线、离线人数',
+                x: '72%',
+                y: 'top'
+              }],
+              series: [{
+                name: '各工种人数',
+                type: 'pie',
+                center: ['25%', '50%'],
+                radius: ['0%', '40%'],
+                label: {
+                  formatter: '{b}：{c} ({d}%)'
+                },
+                data: Object.entries(professions).map(([profession, count]) => ({ name: profession, value: count }))
+              }, {
+                name: '在线、离线人数',
+                type: 'pie',
+                center: ['75%', '50%'],
+                radius: ['0%', '40%'],
+                label: {
+                  formatter: '{b}：{c} ({d}%)'
+                },
+                data: [
+                  { name: '在线', value: onlineCount },
+                  { name: '离线', value: offlineCount }
+                ]
+              }]
+            }
+
+            // 渲染饼图
+            chart.setOption(options)
+          } else {
+            this.PrintMessage(response.data.message)
           }
         })
         .catch(failResponse => {

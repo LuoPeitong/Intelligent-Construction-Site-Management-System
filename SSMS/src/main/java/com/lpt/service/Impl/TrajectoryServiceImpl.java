@@ -1,7 +1,10 @@
 package com.lpt.service.Impl;
 
+import com.lpt.dao.IStaffDao;
 import com.lpt.dao.ITrajectoryDao;
 import com.lpt.pojo.Trajectory;
+import com.lpt.result.Result;
+import com.lpt.result.pojo.ResponsePerInfo;
 import com.lpt.result.pojo.ResponseTrajectory;
 import com.lpt.service.TrajectoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +20,16 @@ public class TrajectoryServiceImpl implements TrajectoryService {
     @Autowired
     private ITrajectoryDao iTrajectoryDao;
 
-    @Override
-    public List<ResponseTrajectory> getInfo(){
+    @Autowired
+    private IStaffDao iStaffDao;
 
-        return iTrajectoryDao.getInfo();
+    @Override
+    public Result getInfo(){
+
+        ResponsePerInfo responsePerInfo = new ResponsePerInfo();
+        responsePerInfo.setPerInfo(iTrajectoryDao.getInfo());
+        responsePerInfo.setStaffList(iStaffDao.findAll());
+        return new Result(200,responsePerInfo,"请求成功");
     }
 
     @Override

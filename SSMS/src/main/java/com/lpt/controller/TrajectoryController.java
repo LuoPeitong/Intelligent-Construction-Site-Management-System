@@ -26,8 +26,12 @@ public class TrajectoryController {
     @RequestMapping(value = "/trajectory/getInfo")
     @ResponseBody
     public Result getInfo() {
+        try{
 
-        return new Result(200,trajectoryService.getInfo(),"获取人员信息成功");
+            return trajectoryService.getInfo();
+        } catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
     }
 
     @CrossOrigin
