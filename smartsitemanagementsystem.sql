@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 05/05/2023 16:01:55
+ Date: 08/05/2023 11:57:50
 */
 
 SET NAMES utf8mb4;
@@ -44,12 +44,14 @@ CREATE TABLE `area`  (
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of area
 -- ----------------------------
-INSERT INTO `area` VALUES (7, '118.19517842742541,24.49466388726988;118.19555393668741,24.49471758507689;118.19594017478561,24.49584035214138;118.19553784343341,24.49598679927983', '1', '上班区域', '张三', '2023-04-29 17:54:47');
+INSERT INTO `area` VALUES (7, '118.194826,24.49446;118.195964,24.494536;118.196358,24.496041;118.195008,24.4964;118.194841,24.495938;118.194833,24.495434', '1', '上班区域', '张三', '2023-04-29 17:54:47');
+INSERT INTO `area` VALUES (8, '118.1884,24.49356;118.196431,24.494709;118.196979,24.496488;118.194429,24.497464;118.193881,24.497572;118.188448,24.497637;118.188067,24.495859;118.188067,24.494254', '0', '广场', '张三', '2023-05-05 20:38:47');
+INSERT INTO `area` VALUES (9, '118.171987,24.487633;118.19851,24.483259;118.196358,24.496041;118.195008,24.4964;118.194841,24.495938;118.172712,24.497328', '0', '测试区域1', '张三', '2023-05-08 09:50:58');
 
 -- ----------------------------
 -- Table structure for attendance
@@ -64,7 +66,7 @@ CREATE TABLE `attendance`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_attendance_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_attendance_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 135 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attendance
@@ -267,13 +269,13 @@ CREATE TABLE `login`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_login_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_login_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of login
 -- ----------------------------
 INSERT INTO `login` VALUES (1, 'qwe001', '123', '1');
-INSERT INTO `login` VALUES (2, 'qwe002', '123', '2');
+INSERT INTO `login` VALUES (2, 'qwe002', '321', '2');
 INSERT INTO `login` VALUES (3, 'qwe003', '123', '0');
 INSERT INTO `login` VALUES (4, 'qwe004', '123', '0');
 INSERT INTO `login` VALUES (5, 'qwe005', '123', '0');
@@ -356,7 +358,7 @@ CREATE TABLE `project`  (
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES (1, 'A区建设项目组', ' ', ' ', '09:00:00', '17:00:00');
+INSERT INTO `project` VALUES (1, 'A区建设项目组', ' 7', '8,9', '09:00:00', '17:00:00');
 INSERT INTO `project` VALUES (2, 'B区建设项目组', '', '', '10:00:00', '18:00:00');
 INSERT INTO `project` VALUES (3, 'C区建设项目组', '', '', '10:00:00', '18:00:00');
 INSERT INTO `project` VALUES (4, 'A区检验组', '', '', '10:00:00', '18:00:00');
@@ -382,7 +384,7 @@ CREATE TABLE `staff`  (
   INDEX `fk_staff_project_on_projectid`(`project_id`) USING BTREE,
   CONSTRAINT `fk_staff_department_on_departmentid` FOREIGN KEY (`department_id`) REFERENCES `department` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_staff_project_on_projectid` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of staff
@@ -443,7 +445,7 @@ CREATE TABLE `trajectory`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_trajectory_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_trajectory_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trajectory

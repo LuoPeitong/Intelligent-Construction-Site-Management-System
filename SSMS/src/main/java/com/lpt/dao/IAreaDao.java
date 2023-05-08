@@ -13,14 +13,17 @@ import java.util.List;
 public interface IAreaDao {
 
     @Select("select * from area")
-    public List<Area> getAllArea();
+    List<Area> getAllArea();
+
+    @Select("select * from area where id=#{id}")
+    Area queryById(Area area);
 
     @Insert("insert into area (region,classes,name,create_by,create_time) values(#{region}, #{classes}, #{name}, #{createBy}, #{createTime})")
-    public void addArea(Area area);
+    void addArea(Area area);
 
     @Update("update area set region=#{region}, classes=#{classes}, name=#{name} where id=#{id}")
-    public void editArea(Area area);
+    void editArea(Area area);
 
     @Delete("delete from area where id = #{id}")
-    public void delArea(Area area);
+    void delArea(Area area);
 }

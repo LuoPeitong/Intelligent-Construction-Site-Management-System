@@ -1,9 +1,15 @@
 package com.lpt.service.Impl;
 
+import com.lpt.dao.IAreaDao;
 import com.lpt.dao.IAttendanceDao;
+import com.lpt.dao.IProjectDao;
 import com.lpt.dao.IStaffDao;
+import com.lpt.pojo.Area;
 import com.lpt.pojo.Attendance;
+import com.lpt.pojo.Project;
+import com.lpt.pojo.Trajectory;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.PointlnPolygon;
 import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.result.pojo.ResponseAttendance;
 import com.lpt.result.pojo.ResponsePerStatistics;
@@ -20,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("attendanceService")
@@ -30,6 +37,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Autowired
     private IStaffDao iStaffDao;
+
+    @Autowired
+    private IProjectDao iProjectDao;
+
+    @Autowired
+    private IAreaDao iAreaDao;
 
     @Override
     public Result getAttendData(RequestAttendance requestAttendance){
@@ -117,49 +130,86 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public Result signIn(Attendance attendance){
+    public Result signIn(Trajectory trajectory){
+        Project p = iProjectDao.queryByJobNo(trajectory);
+        String[] workArea = p.getWorkArea().split(",");
+        List<Area> areaList = new ArrayList<>();
+        for(int i=0;i<workArea.length;i++){
 
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");//定义格式，不显示毫秒
-        Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
-        String moment = date.format(now);
-        String enterMoment = time.format(now);
-
-        attendance.setMoment(moment);
-
-        if(iAttendanceDao.findByJobNoAndMoment(attendance) == null){
-            attendance.setEnterMoment(enterMoment);
-            iAttendanceDao.signIn(attendance);
+            Area area = new Area();
+            area.setId(Integer.parseInt(workArea[i]));
+            areaList.add(iAreaDao.queryById(area));
         }
-        else{
-            return new Result(202,null,"已经打过卡啦");
+
+        String[] location = trajectory.getLocation().split(",");
+        for(int i=0;i<areaList.size();i++) {
+            if (PointlnPolygon.isPointInArea(Double.parseDouble(location[0]), Double.parseDouble(location[1]), areaList.get(i).getRegion())) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
+                SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");//定义格式，不显示毫秒
+                Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
+                String moment = date.format(now);
+                String enterMoment = time.format(now);
+
+                Attendance attendance = new Attendance();
+                attendance.setJobNo(trajectory.getJobNo());
+                attendance.setMoment(moment);
+
+                if(iAttendanceDao.findByJobNoAndMoment(attendance) == null){
+                    attendance.setEnterMoment(enterMoment);
+                    iAttendanceDao.signIn(attendance);
+                }
+                else{
+                    return new Result(202,null,"已经打过卡啦");
+                }
+                return new Result(200,null,"签到成功");
+            }
         }
-        return new Result(200,null,"签到成功");
+        return new Result(202,null,"打卡失败！不在区域内");
     }
 
     @Override
-    public Result signOut(Attendance attendance){
+    public Result signOut(Trajectory trajectory){
 
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");//定义格式，不显示毫秒
-        Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
-        String moment = date.format(now);
-        String leaveMoment = time.format(now);
+        Project p = iProjectDao.queryByJobNo(trajectory);
+        String[] workArea = p.getWorkArea().split(",");
+        List<Area> areaList = new ArrayList<>();
+        for(int i=0;i<workArea.length;i++){
 
-        attendance.setMoment(moment);
-        if(iAttendanceDao.findByJobNoAndMoment(attendance) == null){
-
-            return new Result(204,null,"打卡失败！因为你今天没有签到");
+            Area area = new Area();
+            area.setId(Integer.parseInt(workArea[i]));
+            areaList.add(iAreaDao.queryById(area));
         }
-        else if(iAttendanceDao.findByJobNoAndMoment(attendance).getLeaveMoment()==null||"".equals(iAttendanceDao.findByJobNoAndMoment(attendance).getLeaveMoment()))
-        {
-            attendance.setLeaveMoment(leaveMoment);
-            iAttendanceDao.signOut(attendance);
-            return new Result(200,null,"签退成功");
-        }
-        else{
 
-            return new Result(202,null,"已经打过卡啦");
+        String[] location = trajectory.getLocation().split(",");
+        for(int i=0;i<areaList.size();i++){
+            if(PointlnPolygon.isPointInArea(Double.parseDouble(location[0]),Double.parseDouble(location[1]),areaList.get(i).getRegion())){
+
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
+                SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");//定义格式，不显示毫秒
+                Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
+                String moment = date.format(now);
+                String leaveMoment = time.format(now);
+
+                Attendance attendance = new Attendance();
+                attendance.setJobNo(trajectory.getJobNo());
+
+                attendance.setMoment(moment);
+                if(iAttendanceDao.findByJobNoAndMoment(attendance) == null){
+
+                    return new Result(202,null,"打卡失败！因为你今天没有签到");
+                }
+                else if(iAttendanceDao.findByJobNoAndMoment(attendance).getLeaveMoment()==null||"".equals(iAttendanceDao.findByJobNoAndMoment(attendance).getLeaveMoment()))
+                {
+                    attendance.setLeaveMoment(leaveMoment);
+                    iAttendanceDao.signOut(attendance);
+                    return new Result(200,null,"签退成功");
+                }
+                else{
+
+                    return new Result(202,null,"已经打过卡啦");
+                }
+            }
         }
+        return new Result(202,null,"打卡失败！不在区域内");
     }
 }

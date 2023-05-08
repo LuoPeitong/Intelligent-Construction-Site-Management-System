@@ -17,6 +17,12 @@
 			</uni-popup-dialog>
 		</uni-popup>
 		
+		<uni-popup ref="locationDialog" type="dialog">
+			<uni-popup-dialog ref="locationClose" mode="input" title="输入当前位置" placeholder="请输入坐标"
+				@confirm="dialoglocationConfirm">
+			</uni-popup-dialog>
+		</uni-popup>
+		
 		<uni-popup ref="editPwdDialog" type="dialog">
 			<uni-popup-dialog ref="inputClose" mode="input" title="修改密码" placeholder="请输入新密码"
 				@confirm="editPwdConfirm">
@@ -38,9 +44,12 @@
 			this.staff = uni.getStorageSync('staff');
 		},
 		methods: {
-			// 打开dialog
+			// 打开定位按钮的dialog
 			inputDialogToggle() {
 				this.$refs.inputDialog.open()
+			},
+			locationDialogToggle() {
+				this.$refs.locationDialog.open()
 			},
 			editPassword() {
 				this.$refs.editPwdDialog.open()
@@ -60,6 +69,9 @@
 						this.PrintMessage(res.data.message)
 					}
 				})
+			},
+			dialoglocationConfirm(val) {
+				this.location = val
 			},
 			dialogInputConfirm(val) {
 				this.location = val
@@ -110,7 +122,8 @@
 				uni.request({
 					url: this.$baseUrl + "attendance/signIn",
 					data: {
-						jobNo: this.staff.jobNo
+						jobNo: this.staff.jobNo,
+						location: this.location
 					},
 					method: 'post',
 					header: {
@@ -121,11 +134,13 @@
 					}
 				})
 			},
+			// 签退
 			signOut() {
 				uni.request({
 					url: this.$baseUrl + "attendance/signOut",
 					data: {
-						jobNo: this.staff.jobNo
+						jobNo: this.staff.jobNo,
+						location: this.location
 					},
 					method: 'post',
 					header: {

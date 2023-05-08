@@ -3,6 +3,7 @@ package com.lpt.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lpt.pojo.Attendance;
+import com.lpt.pojo.Trajectory;
 import com.lpt.result.Result;
 import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.service.AttendanceService;
@@ -58,16 +59,25 @@ public class AttendanceController {
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/attendance/signIn")
-    public Result signIn(@RequestBody Attendance attendance) {
+    public Result signIn(@RequestBody Trajectory trajectory) {
+        try{
 
-        return attendanceService.signIn(attendance);
+            return attendanceService.signIn(trajectory);
+        }
+        catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
     }
 
     @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/attendance/signOut")
-    public Result signOut(@RequestBody Attendance attendance) {
-
-        return attendanceService.signOut(attendance);
+    public Result signOut(@RequestBody Trajectory trajectory) {
+        try{
+            return attendanceService.signOut(trajectory);
+        }
+        catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
     }
 }

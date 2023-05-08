@@ -54,6 +54,8 @@
 									});
 								}, 1000)
 							}, 0);
+						} else {
+							this.PrintMessage(res.data.message)
 						}
 					}
 				})

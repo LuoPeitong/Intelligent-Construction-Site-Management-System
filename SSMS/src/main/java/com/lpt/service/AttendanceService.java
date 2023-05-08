@@ -1,6 +1,7 @@
 package com.lpt.service;
 
 import com.lpt.pojo.Attendance;
+import com.lpt.pojo.Trajectory;
 import com.lpt.result.Result;
 import com.lpt.result.pojo.RequestAttendance;
 import com.lpt.result.pojo.ResponseAttendance;
@@ -17,7 +18,7 @@ public interface AttendanceService {
 
     public Result findData(Attendance attendance);
 
-    public Result signIn(Attendance attendance);
+    public Result signIn(Trajectory trajectory);
 
-    public Result signOut(Attendance attendance);
+    public Result signOut(Trajectory trajectory);
 }
