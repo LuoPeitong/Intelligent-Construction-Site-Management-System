@@ -80,7 +80,7 @@ export default {
                 name: '各工种人数',
                 type: 'pie',
                 center: ['25%', '50%'],
-                radius: ['0%', '40%'],
+                radius: ['20%', '40%'],
                 label: {
                   formatter: '{b}：{c} ({d}%)'
                 },
@@ -89,7 +89,7 @@ export default {
                 name: '在线、离线人数',
                 type: 'pie',
                 center: ['75%', '50%'],
-                radius: ['0%', '40%'],
+                radius: ['20%', '40%'],
                 label: {
                   formatter: '{b}：{c} ({d}%)'
                 },
