@@ -145,7 +145,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Result editPermissions(Login login){
 
-        if(iLoginDao.querySuperNum()<=1){
+        if(iLoginDao.querySuperNum()<=1&&login.getPermissions()!='2'){
             return new Result(202,null,"至少要有一个超级管理员");
         }
         iLoginDao.editPermissions(login);

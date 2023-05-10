@@ -103,8 +103,13 @@ export default {
           permissions: this.form.permissions
         })
         .then(successResponse => {
-          this.staffList = successResponse.data.object
-          this.PrintMessage(successResponse.data.code, successResponse.data.message)
+          if (successResponse.data.code === 200) {
+
+            this.staffList = successResponse.data.object
+            this.PrintMessage(successResponse.data.code, successResponse.data.message)
+          } else {
+            this.PrintMessage(successResponse.data.code, successResponse.data.message)
+          }
         })
         .catch(failResponse => {
         })
