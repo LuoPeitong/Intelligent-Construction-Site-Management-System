@@ -103,4 +103,29 @@ public class LoginController {
         loginService.add(requestLogin);
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/user/setAdminQuery")
+    @ResponseBody
+    public Result setAdminQuery() {
+        try{
+
+            return loginService.setAdminQuery();
+        }
+        catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/user/editPermissions")
+    @ResponseBody
+    public Result editPermissions(@RequestBody Login login) {
+        try{
+
+            return loginService.editPermissions(login);
+        }
+        catch (Exception e){
+            return new Result(400,null,"出错了");
+        }
+    }
 }

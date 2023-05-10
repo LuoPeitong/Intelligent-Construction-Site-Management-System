@@ -23,6 +23,7 @@ import PerInfoMonitoring from '@/components/func/PerInfoMonitoring'
 import AttManagement from '@/components/func/AttManagement'
 import AlarmManagement from '@/components/func/AlarmManagement'
 import OrganManagement from '@/components/func/OrganManagement'
+import SetAdmin from '@/components/func/SetAdmin'
 export default {
   name: 'Tabs',
   components: {
@@ -34,7 +35,8 @@ export default {
     AttManagement,
     RegionalManagement,
     AlarmManagement,
-    OrganManagement
+    OrganManagement,
+    SetAdmin
   },
   data () {
     return {

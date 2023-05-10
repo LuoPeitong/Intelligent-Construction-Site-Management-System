@@ -21,4 +21,8 @@ public interface LoginService {
     Result getCode(Staff staff) throws MessagingException;
 
     Result resetPwd(RequestStaff r);
+
+    Result setAdminQuery();
+
+    Result editPermissions(Login login);
 }

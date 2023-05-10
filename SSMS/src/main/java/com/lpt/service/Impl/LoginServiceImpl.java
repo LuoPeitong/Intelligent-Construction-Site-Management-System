@@ -135,4 +135,20 @@ public class LoginServiceImpl implements LoginService {
 
         iLoginDao.add(user);
     }
+
+    @Override
+    public Result setAdminQuery(){
+
+        return new Result(200,iLoginDao.setAdminQuery(),"请求成功");
+    }
+
+    @Override
+    public Result editPermissions(Login login){
+
+        if(iLoginDao.querySuperNum()<=1){
+            return new Result(202,null,"至少要有一个超级管理员");
+        }
+        iLoginDao.editPermissions(login);
+        return new Result(200,iLoginDao.setAdminQuery(),"请求成功");
+    }
 }

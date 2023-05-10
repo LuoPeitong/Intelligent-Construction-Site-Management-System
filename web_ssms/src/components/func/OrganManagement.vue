@@ -182,7 +182,7 @@ export default {
     },
     // 行 编辑
     handleEdit (index, row) {
-      this.form = row
+      this.form = JSON.parse(JSON.stringify(row))
       this.dialogFormVisible = true
     },
     // 行 删除
@@ -216,7 +216,7 @@ export default {
     },
     // 行 编辑
     projectEdit (index, row) {
-      this.projectForm = row
+      this.projectForm = JSON.parse(JSON.stringify(row))
       this.projectForm.workArea = row.workArea.split(',').map(Number)
       this.projectForm.limitedArea = row.limitedArea.split(',').map(Number)
       this.projectFormVisible = true
