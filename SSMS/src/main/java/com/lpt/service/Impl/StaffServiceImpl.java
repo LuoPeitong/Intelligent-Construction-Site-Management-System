@@ -4,16 +4,16 @@ import com.lpt.dao.IDepartmentDao;
 import com.lpt.dao.ILoginDao;
 import com.lpt.dao.IProjectDao;
 import com.lpt.dao.IStaffDao;
-import com.lpt.pojo.Department;
-import com.lpt.pojo.Login;
-import com.lpt.pojo.Project;
-import com.lpt.pojo.Staff;
+import com.lpt.pojo.*;
 import com.lpt.result.Result;
+import com.lpt.result.pojo.Report;
 import com.lpt.result.pojo.StaffList;
 import com.lpt.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,5 +114,15 @@ public class StaffServiceImpl implements StaffService {
     public void SetNotOnline(Staff staff){
 
         iStaffDao.SetNotOnline(staff);
+    }
+
+    @Override
+    public Result queryPerReport(){
+        Attendance a = new Attendance();
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
+        Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
+        String moment = date.format(now);
+        a.setMoment(moment);
+        return new Result(200,iStaffDao.queryPerReport(a),"请求成功");
     }
 }

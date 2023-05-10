@@ -54,4 +54,17 @@ public class StaffController {
             return new Result(400, null,"出错了");
         }
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "/staff/queryPerReport")
+    @ResponseBody
+    public Result queryPerReport() {
+        try{
+
+            return staffService.queryPerReport();
+        }
+        catch (Exception e){
+            return new Result(400, null,"出错了");
+        }
+    }
 }
