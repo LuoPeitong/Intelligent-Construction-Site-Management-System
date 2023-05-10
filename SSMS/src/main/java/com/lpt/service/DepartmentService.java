@@ -1,10 +1,15 @@
 package com.lpt.service;
 
 import com.lpt.pojo.Department;
+import com.lpt.result.Result;
 
 import java.util.List;
 
 public interface DepartmentService {
 
-    public List<Department> findAll();
+    Result findAll();
+
+    Result editDepartment(Department department);
+
+    Result delDepartment(Department department);
 }

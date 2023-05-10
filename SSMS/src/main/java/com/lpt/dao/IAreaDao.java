@@ -18,6 +18,8 @@ public interface IAreaDao {
     @Select("select * from area where id=#{id}")
     Area queryById(Area area);
 
+    @Select("select ")
+
     @Insert("insert into area (region,classes,name,create_by,create_time) values(#{region}, #{classes}, #{name}, #{createBy}, #{createTime})")
     void addArea(Area area);
 

@@ -16,25 +16,25 @@
 <script>
 import PerManagement from '@/components/func/PerManagement'
 import PerReport from '@/components/func/PerReport'
-import PerDistribution from '@/components/func/PerDistribution'
 import PerRealTimeTrack from '@/components/func/PerRealTimeTrack'
 import PerInfoStatistics from '@/components/func/PerInfoStatistics'
 import RegionalManagement from '@/components/func/RegionalManagement'
 import PerInfoMonitoring from '@/components/func/PerInfoMonitoring'
 import AttManagement from '@/components/func/AttManagement'
 import AlarmManagement from '@/components/func/AlarmManagement'
+import OrganManagement from '@/components/func/OrganManagement'
 export default {
   name: 'Tabs',
   components: {
     PerManagement,
     PerReport,
-    PerDistribution,
     PerInfoMonitoring,
     PerRealTimeTrack,
     PerInfoStatistics,
     AttManagement,
     RegionalManagement,
-    AlarmManagement
+    AlarmManagement,
+    OrganManagement
   },
   data () {
     return {

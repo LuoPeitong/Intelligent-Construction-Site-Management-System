@@ -5,19 +5,19 @@
         <environment id="mysql">
             <transactionManager type="JDBC"/>
             <!-- 服务器连接池 -->
-            <dataSource type="POOLED">
+            <!--<dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://47.120.42.193:3306/SmartSiteManagementSystem?characterEncoding=utf8&amp;allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="12345678"/>
-            </dataSource>
+            </dataSource>-->
             <!-- 本地 -->
-            <!--<dataSource type="POOLED">
+            <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/SmartSiteManagementSystem?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="123"/>
-            </dataSource>-->
+            </dataSource>
         </environment>
     </environments>
     <!-- 使用的是注解 -->

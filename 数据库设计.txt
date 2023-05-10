@@ -25,7 +25,7 @@
 项目编号id		项目名称name	工作区域work_area（String 类型 List<区域编号>）	禁止区域limited_area		上班时间start_time	下班时间closing_time
 
 部门表(department)
-数据编号id		部门代号symbol	部门名称name
+数据编号id		部门代号symbol	部门名称name	部门负责人head	联系方式tel	
 
 一级菜单表(menu)
 菜单编号（id）	名称（title）	图片（img）	权限permissions

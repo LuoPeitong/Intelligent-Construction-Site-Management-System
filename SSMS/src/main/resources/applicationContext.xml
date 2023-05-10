@@ -22,19 +22,19 @@
     <!--Spring整合MyBatis框架-->
     <!--配置连接池-->
     <!-- 服务器连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://47.120.42.193:3306/SmartSiteManagementSystem?allowPublicKeyRetrieval=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true"/>
         <property name="user" value="root"/>
         <property name="password" value="12345678"/>
-    </bean>
+    </bean>-->
     <!-- 本地 -->
-    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
         <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/SmartSiteManagementSystem?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true"/>
         <property name="user" value="root"/>
         <property name="password" value="123"/>
-    </bean>-->
+    </bean>
 
     <!--配置SqlSessionFactory工厂-->
     <bean id="sqlSessonFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

@@ -1,10 +1,15 @@
 package com.lpt.service;
 
 import com.lpt.pojo.Project;
+import com.lpt.result.Result;
 
 import java.util.List;
 
 public interface ProjectService {
 
-    public List<Project> findAll();
+    Result findAll();
+
+    Result editProject(Project project);
+
+    Result delProject(Project project);
 }

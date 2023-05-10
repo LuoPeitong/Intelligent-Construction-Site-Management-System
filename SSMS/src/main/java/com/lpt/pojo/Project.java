@@ -12,6 +12,6 @@ public class Project implements Serializable {
     private String name;
     private String workArea;
     private String limitedArea;
-    private Time startTime;
-    private Time closingTime;
+    private String startTime;
+    private String closingTime;
 }

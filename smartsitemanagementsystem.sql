@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 08/05/2023 11:57:50
+ Date: 11/05/2023 01:31:21
 */
 
 SET NAMES utf8mb4;
@@ -66,7 +66,7 @@ CREATE TABLE `attendance`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_attendance_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_attendance_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 135 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 136 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of attendance
@@ -205,6 +205,11 @@ INSERT INTO `attendance` VALUES (131, '2023-04-15', NULL, '15:24:14', NULL);
 INSERT INTO `attendance` VALUES (132, '2023-04-15', 'qwe001', '15:25:20', NULL);
 INSERT INTO `attendance` VALUES (133, '2023-05-05', 'qwe001', '09:48:44', '10:06:49');
 INSERT INTO `attendance` VALUES (134, '2023-05-05', 'qwe002', '10:07:26', '10:07:27');
+INSERT INTO `attendance` VALUES (135, '2023-05-08', 'qwe002', '16:00:36', '16:00:37');
+INSERT INTO `attendance` VALUES (136, '2023-05-10', 'qwe001', '10:40:41', NULL);
+INSERT INTO `attendance` VALUES (137, '2023-05-10', 'qwe002', '10:41:02', NULL);
+INSERT INTO `attendance` VALUES (138, '2023-05-10', 'qwe003', '10:41:18', NULL);
+INSERT INTO `attendance` VALUES (139, '2023-05-10', 'qwe004', '10:41:29', NULL);
 
 -- ----------------------------
 -- Table structure for department
@@ -214,18 +219,21 @@ CREATE TABLE `department`  (
   `id` int(0) UNSIGNED NOT NULL AUTO_INCREMENT,
   `symbol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT ' ',
+  `head` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '部门负责人',
+  `tel` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '联系方式',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of department
 -- ----------------------------
-INSERT INTO `department` VALUES (1, 'test', '测试部');
-INSERT INTO `department` VALUES (2, 'project', '项目部');
-INSERT INTO `department` VALUES (3, 'personnel', '人事部');
-INSERT INTO `department` VALUES (4, 'security', '安全部');
-INSERT INTO `department` VALUES (5, 'quality', '质量部');
-INSERT INTO `department` VALUES (6, 'Logistics', '后勤部');
+INSERT INTO `department` VALUES (1, 'test', '测试部', '李四', '13300000000');
+INSERT INTO `department` VALUES (2, 'project', '项目部', '李四', '13300000000');
+INSERT INTO `department` VALUES (3, 'personnel', '人事部', '李四', '13300000000');
+INSERT INTO `department` VALUES (4, 'security', '安全部', '李四', '13300000000');
+INSERT INTO `department` VALUES (5, 'quality', '质量部', '李四', '13300000000');
+INSERT INTO `department` VALUES (6, 'Logistics', '后勤部', '李四', '13300000000');
+INSERT INTO `department` VALUES (9, 'test11', '测试', '李四', '13300000000');
 
 -- ----------------------------
 -- Table structure for func
@@ -247,15 +255,14 @@ CREATE TABLE `func`  (
 -- ----------------------------
 INSERT INTO `func` VALUES (3, 1, '项目人员管理', 'PerManagement', '1');
 INSERT INTO `func` VALUES (4, 1, '人员报表查询', 'PerReport', '1');
-INSERT INTO `func` VALUES (5, 2, '人员实时分布监测', 'PerDistribution', '1');
-INSERT INTO `func` VALUES (6, 2, '人员信息监测', 'PerInfoMonitoring', '1');
-INSERT INTO `func` VALUES (7, 3, '人员实时轨迹', 'PerRealTimeTrack', '1');
-INSERT INTO `func` VALUES (8, 3, '人员统计信息', 'PerInfoStatistics', '1');
-INSERT INTO `func` VALUES (9, 4, '考勤管理', 'AttManagement', '1');
-INSERT INTO `func` VALUES (10, 5, '区域管理', 'RegionalManagement', '1');
-INSERT INTO `func` VALUES (11, 6, '告警管理', 'AlarmManagement', '1');
-INSERT INTO `func` VALUES (12, 7, '组织结构管理', 'null', '2');
-INSERT INTO `func` VALUES (13, 7, '管理人员设置', 'null', '2');
+INSERT INTO `func` VALUES (5, 2, '人员信息监测', 'PerInfoMonitoring', '1');
+INSERT INTO `func` VALUES (6, 3, '人员实时轨迹', 'PerRealTimeTrack', '1');
+INSERT INTO `func` VALUES (7, 3, '人员统计信息', 'PerInfoStatistics', '1');
+INSERT INTO `func` VALUES (8, 4, '考勤管理', 'AttManagement', '1');
+INSERT INTO `func` VALUES (9, 5, '区域管理', 'RegionalManagement', '1');
+INSERT INTO `func` VALUES (10, 6, '告警管理', 'AlarmManagement', '1');
+INSERT INTO `func` VALUES (11, 7, '组织结构管理', 'OrganManagement', '2');
+INSERT INTO `func` VALUES (12, 7, '管理人员设置', 'SetAdmin', '2');
 
 -- ----------------------------
 -- Table structure for login
@@ -358,12 +365,13 @@ CREATE TABLE `project`  (
 -- ----------------------------
 -- Records of project
 -- ----------------------------
-INSERT INTO `project` VALUES (1, 'A区建设项目组', ' 7', '8,9', '09:00:00', '17:00:00');
+INSERT INTO `project` VALUES (1, 'A区建设项目组', '7', '8', '09:00:00', '17:00:00');
 INSERT INTO `project` VALUES (2, 'B区建设项目组', '', '', '10:00:00', '18:00:00');
 INSERT INTO `project` VALUES (3, 'C区建设项目组', '', '', '10:00:00', '18:00:00');
 INSERT INTO `project` VALUES (4, 'A区检验组', '', '', '10:00:00', '18:00:00');
 INSERT INTO `project` VALUES (5, 'B区检验组', '', '', '11:00:00', '19:00:00');
 INSERT INTO `project` VALUES (6, 'C区检验组', '', '', '11:00:00', '19:00:00');
+INSERT INTO `project` VALUES (7, '测试', '8', NULL, '08:00:00', '18:00:00');
 
 -- ----------------------------
 -- Table structure for staff
@@ -392,7 +400,7 @@ CREATE TABLE `staff`  (
 INSERT INTO `staff` VALUES (1, 'qwe001', '张三', 1, '技术员', '在线', 1, 'luopeitong0739@foxmail.com');
 INSERT INTO `staff` VALUES (2, 'qwe002', '李四', 1, '技术员', '在线', 1, 'lpt979210646@qq.com');
 INSERT INTO `staff` VALUES (3, 'qwe003', '王二', 1, '工程师', '离线', 1, 'lpt979210646@qq.com');
-INSERT INTO `staff` VALUES (4, 'qwe004', '赵钱', 2, '项目主管', '离线', 1, 'lpt979210646@qq.com');
+INSERT INTO `staff` VALUES (4, 'qwe004', '赵钱', 2, '项目主管', '在线', 1, 'lpt979210646@qq.com');
 INSERT INTO `staff` VALUES (5, 'qwe005', '孙李', 2, '施工员', '离线', 2, 'lpt979210646@qq.com');
 INSERT INTO `staff` VALUES (6, 'qwe006', '周吴', 3, '人事', '离线', 3, 'lpt979210646@qq.com');
 INSERT INTO `staff` VALUES (7, 'qwe007', '郑王', 4, '验收员', '离线', 4, 'lpt979210646@qq.com');
@@ -445,7 +453,7 @@ CREATE TABLE `trajectory`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `fk_trajectory_staff_on_jobno`(`job_no`) USING BTREE,
   CONSTRAINT `fk_trajectory_staff_on_jobno` FOREIGN KEY (`job_no`) REFERENCES `staff` (`job_no`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of trajectory
@@ -536,5 +544,10 @@ INSERT INTO `trajectory` VALUES (83, 'qwe040', '2022-12-12 22:36:32', '118.05707
 INSERT INTO `trajectory` VALUES (84, 'qwe041', '2022-12-12 22:36:32', '118.057074, 24.380073');
 INSERT INTO `trajectory` VALUES (85, 'qwe042', '2022-12-12 22:36:32', '118.057074, 24.380073');
 INSERT INTO `trajectory` VALUES (86, 'qwe043', '2022-12-12 22:36:32', '118.057074, 24.380073');
+INSERT INTO `trajectory` VALUES (112, 'qwe002', '2023-05-08 15:50:15', '118.189855,24.495212');
+INSERT INTO `trajectory` VALUES (113, 'qwe001', '2023-05-10 10:40:40', '118.195544,24.495268');
+INSERT INTO `trajectory` VALUES (114, 'qwe002', '2023-05-10 10:41:01', '118.195544,24.495268');
+INSERT INTO `trajectory` VALUES (115, 'qwe003', '2023-05-10 10:41:16', '118.195544,24.495268');
+INSERT INTO `trajectory` VALUES (116, 'qwe004', '2023-05-10 10:41:28', '118.195544,24.495268');
 
 SET FOREIGN_KEY_CHECKS = 1;
