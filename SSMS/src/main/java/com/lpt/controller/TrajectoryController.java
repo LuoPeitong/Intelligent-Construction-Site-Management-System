@@ -42,4 +42,18 @@ public class TrajectoryController {
         trajectoryService.setLocation(trajectory);
         return new Result(200,null,"定位上传成功");
     }
+
+    @CrossOrigin
+    @RequestMapping(value = "/trajectory/realTimeTrack")
+    @ResponseBody
+    public Result realTimeTrack() {
+        try{
+            return trajectoryService.realTimeTrack();
+        }
+        catch (Exception e){
+
+            System.out.println(e);
+            return new Result(400,null,"出错了");
+        }
+    }
 }

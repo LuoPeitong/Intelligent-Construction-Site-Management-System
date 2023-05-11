@@ -2,6 +2,7 @@ package com.lpt.service.Impl;
 
 import com.lpt.dao.IStaffDao;
 import com.lpt.dao.ITrajectoryDao;
+import com.lpt.pojo.Attendance;
 import com.lpt.pojo.Trajectory;
 import com.lpt.result.Result;
 import com.lpt.result.pojo.ResponsePerInfo;
@@ -41,5 +42,15 @@ public class TrajectoryServiceImpl implements TrajectoryService {
         Timestamp now= new Timestamp(System.currentTimeMillis());
         trajectory.setMoment(datetime.format(now));
         iTrajectoryDao.setTrajectory(trajectory);
+    }
+
+    @Override
+    public Result realTimeTrack(){
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");//定义格式，不显示毫秒
+        Timestamp now= new Timestamp(System.currentTimeMillis());//获取系统当前时间
+        String moment = date.format(now);
+        Attendance attendance = new Attendance();
+        attendance.setMoment(moment);
+        return new Result(200,iTrajectoryDao.realTimeTrack(attendance),"请求成功");
     }
 }

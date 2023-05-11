@@ -11,4 +11,6 @@ public interface TrajectoryService {
     Result getInfo();
 
     void setLocation(Trajectory trajectory);
+
+    Result realTimeTrack();
 }
