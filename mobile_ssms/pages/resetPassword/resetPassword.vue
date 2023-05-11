@@ -14,7 +14,7 @@
 			<input class="input" type="password" placeholder="请输入密码" v-model="pwd" />
 		</view>
 		<view class="load-button">
-			<button class="button" type="primary" @tap="resetPassword">登录</button>
+			<button class="button" type="primary" @tap="resetPassword">提交</button>
 		</view>
 	</view>
 </template>
