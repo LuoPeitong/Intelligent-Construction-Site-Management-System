@@ -19,16 +19,16 @@
     <el-dialog title="管理员设置" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="员工姓名" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="工号" :label-width="formLabelWidth">
-          <el-input v-model="form.jobNo" autocomplete="off"></el-input>
+          <el-input v-model="form.jobNo" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="工种" :label-width="formLabelWidth">
-          <el-input v-model="form.profession" autocomplete="off"></el-input>
+          <el-input v-model="form.profession" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="部门" :label-width="formLabelWidth">
-          <el-input v-model="form.departmentName" autocomplete="off"></el-input>
+          <el-input v-model="form.departmentName" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="级别" :label-width="formLabelWidth">
           <el-select v-model="form.permissions" placeholder="请选择项目">
