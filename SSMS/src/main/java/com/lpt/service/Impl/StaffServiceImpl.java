@@ -74,6 +74,24 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public Result editStaff(Staff staff){
 
+        if(staff.getEmail()==null||"".equals(staff.getEmail())){
+            return new Result(201,null,"邮箱不允许为空");
+        }
+        if(staff.getJobNo()==null||"".equals(staff.getJobNo())){
+            return new Result(201,null,"工号不允许为空");
+        }
+        if(staff.getName()==null||"".equals(staff.getName())){
+            return new Result(201,null,"姓名不允许为空");
+        }
+        if(staff.getProfession()==null||"".equals(staff.getProfession())){
+            return new Result(201,null,"工种不允许为空");
+        }
+        if(staff.getProjectId()==null){
+            return new Result(201,null,"所属项目不允许为空");
+        }
+        if(staff.getDepartmentId()==null){
+            return new Result(201,null,"所属部门不允许为空");
+        }
         if(staff.getId()!=null) {
             iStaffDao.update(staff);
         }
