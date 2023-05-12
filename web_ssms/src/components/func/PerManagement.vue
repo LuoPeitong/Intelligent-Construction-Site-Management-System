@@ -100,7 +100,7 @@ export default {
     // 行 编辑
     handleEdit (index, row) {
       // console.log(index, JSON.stringify(row))
-      this.form = row
+      this.form = JSON.parse(JSON.stringify(row))
       this.dialogFormVisible = true
     },
     // 行 删除
@@ -161,7 +161,7 @@ export default {
           email: this.form.email
         })
         .then(successResponse => {
-          if (successResponse.data.code === 200){
+          if (successResponse.data.code === 200) {
             this.staffList = successResponse.data.object
             this.PrintMessage(successResponse.data.code, successResponse.data.message)
           } else {

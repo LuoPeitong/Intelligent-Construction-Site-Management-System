@@ -41,7 +41,7 @@
 区域编号id		范围region	类型class（作业1、禁止0）	区域名称name	创建人create_by	创建事件create_time
 
 告警记录表(Alarm)
-记录编号id	时间moment	类型class(离开工作区域1、进入禁止区域0)		工号job_no	处理情况handling(处理1，未处理0）			
+记录编号id	时间moment	类型classes(离开工作区域1、进入禁止区域0)		工号job_no	处理情况handling(处理1，未处理0）	message（离开/进入 xx区域）			
 
 轨迹表(trajectory)
 轨迹编号id	工号job_no	时间moment 	位置信息location

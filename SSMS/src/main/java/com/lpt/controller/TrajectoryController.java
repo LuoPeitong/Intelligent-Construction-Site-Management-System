@@ -38,9 +38,14 @@ public class TrajectoryController {
     @RequestMapping(value = "/trajectory/setLocation")
     @ResponseBody
     public Result setLocation(@RequestBody Trajectory trajectory) {
+        try{
 
-        trajectoryService.setLocation(trajectory);
-        return new Result(200,null,"定位上传成功");
+            return trajectoryService.setLocation(trajectory);
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return new Result(400,null,"出错了");
+        }
     }
 
     @CrossOrigin

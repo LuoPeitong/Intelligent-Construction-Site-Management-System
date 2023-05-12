@@ -19,7 +19,7 @@ public interface IProjectDao {
     List<Project> findAll();
 
     // 根据job_no查找工作区域
-    @Select("select work_area from project right join staff on staff.project_id=project.id where staff.job_no=#{jobNo}")
+    @Select("select * from project right join staff on staff.project_id=project.id where staff.job_no=#{jobNo}")
     Project queryByJobNo(Trajectory trajectory);
 
     @Insert("insert into project (name,work_area,limited_area,start_time,closing_time) values (#{name},#{workArea},#{limitedArea},#{startTime},#{closingTime})")

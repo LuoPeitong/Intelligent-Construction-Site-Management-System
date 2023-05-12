@@ -31,7 +31,7 @@
           <el-input v-model="form.departmentName" autocomplete="off" disabled></el-input>
         </el-form-item>
         <el-form-item label="级别" :label-width="formLabelWidth">
-          <el-select v-model="form.permissions" placeholder="请选择项目">
+          <el-select v-model="form.permissions" placeholder="请选择权限">
             <el-option v-for="item in permissions" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -104,7 +104,6 @@ export default {
         })
         .then(successResponse => {
           if (successResponse.data.code === 200) {
-
             this.staffList = successResponse.data.object
             this.PrintMessage(successResponse.data.code, successResponse.data.message)
           } else {
