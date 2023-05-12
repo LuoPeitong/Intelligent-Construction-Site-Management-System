@@ -102,7 +102,7 @@ public class StaffServiceImpl implements StaffService {
 
             Login login = new Login();
             login.setJobNo(staff.getJobNo());
-            login.setPermissions('0');
+            login.setPermissions("0");
             login.setPwd("123");
             System.out.println(login);
             iLoginDao.add(login);

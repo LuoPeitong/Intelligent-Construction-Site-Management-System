@@ -115,6 +115,8 @@ public class LoginServiceImpl implements LoginService {
         }
         int requestLogin = Integer.valueOf(login.getPermissions()).intValue();
         int responseLoginPer = Integer.valueOf(responseLogin.getPermissions()).intValue();
+        System.out.println(requestLogin);
+        System.out.println(responseLoginPer);
         // 比对权限
         if(requestLogin > responseLoginPer){
 
@@ -145,7 +147,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Result editPermissions(Login login){
 
-        if(iLoginDao.querySuperNum()<=1&&login.getPermissions()!='2'){
+        if(iLoginDao.querySuperNum()<=1 && !"2".equals(login.getPermissions())){
             return new Result(202,null,"至少要有一个超级管理员");
         }
         iLoginDao.editPermissions(login);
