@@ -8,7 +8,7 @@
     text-color="#fff"
     text-align="left"
     active-text-color="#ffd04b">
-
+    <el-menu-item @click="logout">退出登录</el-menu-item>
     <el-submenu :index="String(nav.id)" :popper-append-to-body="false" v-for="(nav, key) in NavbarList" :key="key">
       <template slot="title">
         <i :class="nav.img"></i>
@@ -34,6 +34,9 @@ export default {
     this.getMenu()
   },
   methods: {
+    logout () {
+      this.$router.replace({path: '/'})
+    },
     active (nav) {
       this.$store.commit('addEditableTabs', nav)
       // console.log('nav=', JSON.stringify(this.$store.state.editableTabs))
