@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 @Data
 public class Func implements Serializable {
-    private int id;
+    private String id;
     private String title;
-    private int menuId;
+    private String menuId;
     private String content;
 }

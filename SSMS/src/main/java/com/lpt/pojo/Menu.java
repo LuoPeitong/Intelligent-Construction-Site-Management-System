@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Data
 public class Menu implements Serializable {
-    private int id;
+    private String id;
     private String title;
     private String img;
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class MenuList {
     private String title;
-    private int id;
+    private String id;
     private String img;
     private List<Func> subMenu;
 }

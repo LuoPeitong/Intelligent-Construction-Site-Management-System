@@ -9,12 +9,12 @@
     text-align="left"
     active-text-color="#ffd04b">
     <el-menu-item @click="logout">退出登录</el-menu-item>
-    <el-submenu :index="String(nav.id)" :popper-append-to-body="false" v-for="(nav, key) in NavbarList" :key="key">
+    <el-submenu :index="nav.id" :popper-append-to-body="false" v-for="(nav, key) in NavbarList" :key="key">
       <template slot="title">
         <i :class="nav.img"></i>
         <span>{{ nav.title }}</span>
       </template>
-      <el-menu-item style="min-width: 100px" :index="String(s_nav.id)" v-for="(s_nav, s_key) in nav.subMenu"
+      <el-menu-item style="min-width: 100px" :index="s_nav.id" v-for="(s_nav, s_key) in nav.subMenu"
                     :key="s_key" @click="active(s_nav)">
         <span>{{ s_nav.title }}</span>
       </el-menu-item>

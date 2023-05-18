@@ -45,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
             List<Func> f = new ArrayList<>();
             for(int i=flag;i< funcList.size();i++){
                 Func c = funcList.get(i);
-                if(c.getMenuId()==menu.getId()){
+                if(c.getMenuId().equals(menu.getId())){
                     f.add(c);
                     flag++;
                 }
