@@ -19,7 +19,6 @@ export default new Vuex.Store({
       let arr = state.editableTabs
       let val = 'id'
       state.editableTabs = arr.filter((item) => !res.has(item[val]) && res.set(item[val], 1))
-      // console.log('store editableTabs=', JSON.stringify(state.editableTabs))
     },
     saveEditableTabs (state, editableTabs) {
       state.editableTabs = editableTabs
