@@ -1,29 +1,20 @@
 package com.lpt.controller;
 
 import com.lpt.pojo.Area;
-import com.lpt.pojo.Staff;
 import com.lpt.result.Result;
 import com.lpt.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-
-@CrossOrigin
 @Controller
 public class AreaController {
 
     @Autowired
     private AreaService areaService;
 
-    @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/area/getAllArea")
     public Result getAllArea() {
@@ -35,7 +26,6 @@ public class AreaController {
         }
     }
 
-    @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/area/addArea")
     public Result addArea(@RequestBody Area area) {
@@ -47,7 +37,6 @@ public class AreaController {
         }
     }
 
-    @CrossOrigin
     @ResponseBody
     @RequestMapping(value = "/area/delArea")
     public Result delArea(@RequestBody Area area) {

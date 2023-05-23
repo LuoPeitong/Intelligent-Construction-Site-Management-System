@@ -124,7 +124,44 @@ export default {
           }
         }]
       },
-      perStatistics: []
+      perStatistics: [{
+        total: '',
+        isOnline: '',
+        notOnline: '',
+        late: '',
+        leaveEarly: {
+          jobNo: '',
+          name: '',
+          departmentName: '',
+          projectName: '',
+          enterMoment: '',
+          leaveMoment: ''
+        },
+        original: {
+          jobNo: '',
+          name: '',
+          departmentName: '',
+          projectName: '',
+          enterMoment: '',
+          leaveMoment: ''
+        },
+        last: {
+          jobNo: '',
+          name: '',
+          departmentName: '',
+          projectName: '',
+          enterMoment: '',
+          leaveMoment: ''
+        },
+        lateEnter: {
+          jobNo: '',
+          name: '',
+          departmentName: '',
+          projectName: '',
+          enterMoment: '',
+          leaveMoment: ''
+        }
+      }]
     }
   },
   created () {

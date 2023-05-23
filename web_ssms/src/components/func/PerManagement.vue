@@ -94,7 +94,6 @@ export default {
   },
   mounted () {
     this.getStaffList()
-    this.$refs.diaglog.rendered = true
   },
   methods: {
     // 行 编辑

@@ -9,12 +9,20 @@ import store from './store/index'
 import 'element-ui/lib/theme-chalk/index.css'
 import publicFunc from './publicFunc'
 
+// 创建 axios 实例
+const instance = axios.create({
+  // 设置基础URL为 '/api'
+  baseURL: '/api',
+  // 设置请求超时时间
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  },
+  // 发送跨域请求时携带凭据（例如 cookie）
+  withCredentials: true
+})
 // 全局注册，之后可在其他组件中通过 this.$axios 发送数据
-Vue.prototype.$axios = axios
-
-// 设置反向代理，前端请求默认发送到 http://localhost:8443/SSMS_war_exploded/
-// axios.defaults.baseURL = 'http://47.120.42.193:8443/SSMS/'
-axios.defaults.baseURL = 'http://localhost:8443/SSMS_war_exploded/'
+Vue.prototype.$axios = instance
 
 Vue.config.productionTip = false
 
