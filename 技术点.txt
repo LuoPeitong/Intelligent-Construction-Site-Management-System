@@ -16,9 +16,9 @@ SpringMVC返回json数据时报错：No converter found for return value of type
 	原因：就是没有发现该返回类型的转换器，也就是说，当我们想让springmvc自动的帮我们给返回的数据转为json数据时，springmvc并没有成功的给我们返回的数据转为json对象。
 
 	解决：
-		1.检查springmvc的配置，如果是自己手动配置转换器，看一下有没有正确的配置json转换器；如果是springmvc自动配置，那检查一下				springmvc配置中有无开启mvc注解驱动,即：<mvc:annotation-driven />
+		1.检查springmvc的配置，如果是自己手动配置转换器，看一下有没有正确的配置json转换器；如果是springmvc自动配置，那检查一下springmvc配置中有无开启mvc注解驱动,即：<mvc:annotation-driven />
 
-		2.如果上面没问题但还是得不到json数据，再看一下是否加了jackson的几个jar包，如果是maven项目，可以添加下面三个依赖坐标(普通项目也		类似)：
+		2.如果上面没问题但还是得不到json数据，再看一下是否加了jackson的几个jar包，如果是maven项目，可以添加下面三个依赖坐标(普通项目也类似)：
      <dependency>
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-core</artifactId>
@@ -51,12 +51,13 @@ Mybatis打开驼峰命名（使结果能够映射上用驼峰命名的pojo属性
 </bean>
 
 SpringMvc:源服务器拒绝服务请求，因为有效负载的格式在目标资源上此方法不支持。
-
 	原因：使用@RequestBody时只会解析(json格式的数据)Content-Type: application/js的请求，在请求头中加上即可
 
 
 标签页打开不同的页面：https://blog.csdn.net/weixin_43503080/article/details/106491697
 https://blog.csdn.net/weixin_51300999/article/details/123640547
+
+遇到前端项目npm安装东西失败的时候，可能是需要更新：npm -g install npm
 
 vue 的sessionStorage在页面刷新就没了，所以采用localStorage
 
