@@ -1,11 +1,6 @@
 <template>
-  <el-tabs v-model="$store.state.editableTabsValue" @tab-click="handleClick" type="card" closable @edit="handleTabsEdit">
-    <el-tab-pane
-      :key="item.id"
-      v-for="(item) in $store.state.editableTabs"
-      :label="item.title"
-      :name="item.id"
-    >
+  <el-tabs v-model="$store.state.editableTabsValue" @edit="handleTabsEdit" type="card" closable>
+    <el-tab-pane v-for="(item) in $store.state.editableTabs" :key="item.id" :label="item.title" :name="item.id">
       <keep-alive>
         <component :is='item.content'></component>
       </keep-alive>
@@ -44,9 +39,6 @@ export default {
     }
   },
   methods: {
-    handleClick (tab) {
-      this.$store.commit('saveEditableTabsValue', tab.id)
-    },
     handleTabsEdit (targetName, action) {
       if (action === 'remove') {
         // 拷贝tabs列表
